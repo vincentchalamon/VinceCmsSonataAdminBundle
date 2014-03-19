@@ -1,0 +1,11 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        {% if object.parent and object.parent.children[0].id != object.id %}
+            <a href="{{ path('admin_vince_cms_menu_up', {'id': object.id}) }}">
+                <img src="{{ asset('bundles/sonataadmin/famfamfam/arrow_up.png') }}" />
+            </a>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

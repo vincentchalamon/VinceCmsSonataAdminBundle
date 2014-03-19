@@ -1,0 +1,7 @@
+.url {
+    padding-right: 15px;
+    background: url('../img/url.png') no-repeat right 1px;
+}
+.control-group span.help-block {
+    clear: both;
+}

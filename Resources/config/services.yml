@@ -1,0 +1,74 @@
+services:
+    vince.admin.article:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\ArticleAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: cms
+              label_catalogue: SonataAdminBundle
+              label: Articles
+        arguments: [ ~, %vince.class.article%, ~ ]
+        calls:
+            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
+            - [ setMetaRepository, [ @vince.repository.meta ] ]
+            - [ setLocale, [ @form.type_extension.locale_listener ] ]
+            - [ setUser, [ @security.context ] ]
+            - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
+
+    vince.admin.block:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\BlockAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: cms
+              label_catalogue: SonataAdminBundle
+              label: Blocs
+        arguments: [ ~, %vince.class.block%, ~ ]
+        calls:
+            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
+
+    vince.admin.menu:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\MenuAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: cms
+              label_catalogue: SonataAdminBundle
+              label: Menus
+        arguments: [ ~, %vince.class.menu%, ~ ]
+        calls:
+            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
+            - [ setMenuRepository, [ @vince.repository.menu ] ]
+            - [ setPublicPath, [ %kernel.web_dir% ] ]
+            - [ setUploadDirName, [ %kernel.uploads_path% ] ]
+
+    form.type_extension.filename:
+        class: Vince\Bundle\CmsSonataAdminBundle\Form\Extension\FilenameTypeExtension
+        tags:
+            - { name: form.type_extension, alias: form }
+
+    form.type.metagroup:
+        class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\MetaGroupType
+        tags:
+            - { name: form.type, alias: metagroup }
+        calls:
+            - [ setMetaRepository, [ @vince.repository.meta ] ]
+            - [ setArticleMetaClassName, [ %vince.class.articleMeta% ] ]
+
+    form.type.meta:
+        class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\MetaType
+        tags:
+            - { name: form.type, alias: meta }
+
+    form.type.template:
+        class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\TemplateType
+        tags:
+            - { name: form.type, alias: template }
+        calls:
+            - [ setTemplateRepository, [ @vince.repository.template ] ]
+            - [ setContentClassName, [ %vince.class.content% ] ]
+
+    form.type.area:
+        class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\AreaType
+        tags:
+            - { name: form.type, alias: area }

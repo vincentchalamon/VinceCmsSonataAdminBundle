@@ -1,0 +1,34 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/vincecmssonataadmin/css/main.css') }}" type="text/css" rel="stylesheet" />
+    {% if form is defined %}
+        <link href="{{ asset('bundles/vincetype/datepicker/bootstrap.datepicker.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link href="{{ asset('bundles/vincetype/datepicker/datepicker.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link href="{{ asset('bundles/vincetype/redactor/redactor.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link href="{{ asset('bundles/vincetype/token/token-input.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link href="{{ asset('bundles/vincetype/token/token-input-facebook.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link href="{{ asset('bundles/vincetype/list/listInput.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        {{ form_stylesheets(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    {% if form is defined %}
+        <script type="text/javascript" src="{{ asset('bundles/vincetype/datepicker/bootstrap-datepicker.js') }}"></script>
+        {% if app.request.locale != 'en' %}
+            <script type="text/javascript" src="{{ asset('bundles/vincetype/datepicker/langs/bootstrap-datepicker.' ~ app.request.locale ~ '.js') }}"></script>
+        {% endif %}
+        <script type="text/javascript" src="{{ asset('bundles/vincetype/redactor/redactor.js') }}"></script>
+        {% if app.request.locale != 'en' %}
+            <script type="text/javascript" src="{{ asset('bundles/vincetype/redactor/langs/' ~ app.request.locale ~ '.js') }}"></script>
+        {% endif %}
+        <script type="text/javascript" src="{{ asset('bundles/vincecmssonataadmin/js/url.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/vincetype/masked/jquery.maskedinput.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/vincetype/token/jquery.tokeninput.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/vincetype/list/listInput.js') }}"></script>
+        {{ form_javascripts(form) }}
+    {% endif %}
+{% endblock %}

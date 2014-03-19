@@ -1,0 +1,139 @@
+{% block template_row %}
+    {% spaceless %}
+        {% for template in form if template|length > 0 %}
+            <div class="template-container" id="template-container-{{ template.vars.attr.template_id }}">
+                {% for area in template %}
+                    {{ form_row(area) }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_article_template_entity_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                $('#{{ id }}').on('change', function () {
+                    $('.template-container:not(#template-container-' + $(this).val() + ')').hide();
+                    $('#template-container-' + $(this).val()).show();
+                }).trigger('change');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block metagroup_row %}
+    {% spaceless %}
+        {% for group in form %}
+            {% if group.vars.label|length > 0 %}
+                <h3>{{ group.vars.label }}</h3>
+            {% endif %}
+
+            {% for meta in group %}
+                {{ form_row(meta) }}
+            {% endfor %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_article_title_text_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                $('#{{ id }}').on('keydown', function (event) {
+                    // Update custom url
+                    $(':input[id$=url]', $(this).closest('fieldset')).attr('placeholder', '/' + $(this).val().slugify()).trigger('keydown');
+
+                    // Update related metas
+                    $(':input[id$=title]', $(this).closest('form')).not($(this)).each(function () {
+                        if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == $(event.target).val()) {
+                            $(this).val($(event.target).val());
+                        }
+                    });
+                }).trigger('keydown');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_article_summary_textarea_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                $('#{{ id }}').on('keydown', function (event) {
+                    // Update related metas
+                    $(':input[id$=description]', $(this).closest('form')).not($(this)).each(function () {
+                        if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == $(event.target).val()) {
+                            $(this).val($(event.target).val());
+                        }
+                    });
+                }).trigger('keydown');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_article_url_text_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                $('#{{ id }}').on('keydown', function () {
+                    var value = $.trim($(this).val()) ? $.trim($(this).val()) : $(this).attr('placeholder');
+
+                    // Update related metas
+                    $(':input[id$=url]', $(this).closest('form')).not($(this)).each(function () {
+                        if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == value) {
+                            $(this).val(value);
+                        }
+                    });
+                });
+            });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_menu_title_text_javascript %}
+    {% spaceless %}
+        {{ block('vince_admin_article_title_text_javascript') }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_menu_image_checkbox_javascript %}
+    {% spaceless %}
+        <script type="text/javascript">
+            $(function () {
+                $('#{{ id }}').on('change', function () {
+                    if ($(this).is(':checked')) {
+                        $(':input[id$=_file]', $(this).closest('form')).closest('.control-group').show();
+                    } else {
+                        $(':input[id$=_file]', $(this).closest('form')).closest('.control-group').hide();
+                    }
+                }).trigger('change');
+            });
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_menu_file_file_widget %}
+    {% spaceless %}
+        {% if filename is defined and filename %}
+            <a href="{{ filename }}" target="_blank">
+                <img src="{{ filename }}" style="max-height:200px;max-width:200px;" />
+            </a><br />
+        {% endif %}
+        {{ block('form_widget_simple') }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block vince_admin_menu_parent_entity_widget %}
+    {% spaceless %}
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {% for group_label, choice in choices %}
+                <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>
+                    {{ choice.label|trans({}, translation_domain)|raw }}
+                </option>
+            {% endfor %}
+        </select>
+    {% endspaceless %}
+{% endblock %}

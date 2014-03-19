@@ -1,0 +1,57 @@
+cms: CMS
+
+Article List: Articles
+article:
+    group:
+        general: Général
+        publication: Publication
+        metas: SEO
+        template: Mise en page
+    field:
+        url: Url
+        title: Titre
+        summary: Résumé
+        tags: Tags
+        customUrl: Url personnalisée
+        startedAt: Début de publication
+        endedAt: Fin de publication
+        publication: Publication
+        metas: SEO
+        template: Gabarit
+        contents: Contenus
+        add: Ajouter
+    help:
+        summary: Le résumé présente de façon succincte votre article dans le moteur de recherche interne.
+        tags: Les tags permettent de créer des liens entre les articles dans le moteur de recherche interne.
+        customUrl: Celle-ci doit commencer par /. Préférez un tiret (-) comme séparateur.
+
+Menu List: Menus
+menu:
+    group:
+        general: Général
+        publication: Publication
+        url: Destination
+    field:
+        up: Monter
+        down: Descendre
+        parent: Parent
+        title: Titre
+        url: Url
+        article: Article
+        image: S'agit-il d'une image ?
+        path: Image
+        target: Destination
+        startedAt: Début de publication
+        endedAt: Fin de publication
+    help:
+        url: Celle-ci doit commencer par /. Préférez un tiret (-) comme séparateur.
+        article: Si vous liez ce menu à un article, l'url du menu sera ignorée.
+        target:
+            blank: Nouvelle fenêtre
+            self: Même fenêtre
+
+Block List: Blocs
+block:
+    field:
+        title: Titre
+        contents: Contenus

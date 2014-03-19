@@ -1,0 +1,11 @@
+{% extends admin.getTemplate('base_show_field') %}
+
+{% block field %}
+    {% spaceless %}
+        {%- if value is empty -%}
+            &nbsp;
+        {%- else -%}
+            {{ value|join(', ') }}
+        {%- endif -%}
+    {% endspaceless %}
+{% endblock %}
