@@ -12,6 +12,7 @@ namespace Vince\Bundle\CmsSonataAdminBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -20,7 +21,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class VinceCmsSonataAdminExtension extends Extension
+class VinceCmsSonataAdminExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritDoc}
@@ -32,5 +33,18 @@ class VinceCmsSonataAdminExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        // Configure Assetic if AsseticBundle is activated
+        if (isset($bundles['AsseticBundle']) && $container->hasExtension('assetic')) {
+            $container->prependExtensionConfig('assetic', array('bundles' => array('VinceCmsSonataAdminBundle')));
+        }
     }
 }
