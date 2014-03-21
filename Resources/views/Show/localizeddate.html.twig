@@ -5,9 +5,9 @@
         {%- if value is empty -%}
             &nbsp;
         {%- elseif field_description.options.format is defined -%}
-            {{ value|localizeddate(field_description.options.format, 'none') }}
+            {{ value|localizeddate(field_description.options.format, 'none')|capitalize }}
         {%- else -%}
-            {{ value|localizeddate('full', 'none') }}
+            {{ value|localizeddate('full', 'none')|capitalize }}
         {%- endif -%}
     {% endspaceless %}
 {% endblock %}
