@@ -29,7 +29,11 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('vince.admin.article.class', $config['article']);
+        $container->setParameter('vince.admin.block.class', $config['block']);
+        $container->setParameter('vince.admin.menu.class', $config['menu']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

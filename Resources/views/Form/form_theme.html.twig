@@ -15,8 +15,10 @@
         <script type="text/javascript">
             $(function () {
                 $('#{{ id }}').on('change', function () {
-                    $('.template-container:not(#template-container-' + $(this).val() + ')').hide();
-                    $('#template-container-' + $(this).val()).show();
+                    $('.template-container:not(#template-container-' + $(this).val() + ')').hide()
+                            .find(':input[required]').removeAttr('required').attr('data-required', 'required');
+                    $('#template-container-' + $(this).val()).show()
+                            .find(':input[data-required]').removeAttr('data-required').attr('required', 'required');
                 }).trigger('change');
             });
         </script>
@@ -41,17 +43,18 @@
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
-                $('#{{ id }}').on('keydown', function (event) {
+                $('#{{ id }}').on('keydown keyup change', function () {
                     // Update custom url
-                    $(':input[id$=url]', $(this).closest('fieldset')).attr('placeholder', '/' + $(this).val().slugify()).trigger('keydown');
-
+                    $(':input[name*=metas][id$=url]', $(this).closest('form')).add($(':input[id$=url]', $(this).closest('fieldset')))
+                            .attr('placeholder', '/' + $(this).val().slugify()).trigger('keydown');
+                }).trigger('keydown').on('change', function (event) {
                     // Update related metas
-                    $(':input[id$=title]', $(this).closest('form')).not($(this)).each(function () {
-                        if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == $(event.target).val()) {
+                    $(':input[name*=metas][id$=title]', $(this).closest('form')).not($(this)).each(function () {
+                        if ($.trim($(this).val()).length == 0 || $(this).val() == $(event.target).val()) {
                             $(this).val($(event.target).val());
                         }
                     });
-                }).trigger('keydown');
+                }).trigger('change');
             });
         </script>
     {% endspaceless %}
@@ -61,9 +64,9 @@
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
-                $('#{{ id }}').on('keydown', function (event) {
+                $('#{{ id }}').on('keydown keyup', function (event) {
                     // Update related metas
-                    $(':input[id$=description]', $(this).closest('form')).not($(this)).each(function () {
+                    $(':input[name*=metas][id$=description]', $(this).closest('form')).not($(this)).each(function () {
                         if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == $(event.target).val()) {
                             $(this).val($(event.target).val());
                         }
@@ -78,16 +81,16 @@
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
-                $('#{{ id }}').on('keydown', function () {
+                $('#{{ id }}').on('keydown keyup', function () {
                     var value = $.trim($(this).val()) ? $.trim($(this).val()) : $(this).attr('placeholder');
 
                     // Update related metas
-                    $(':input[id$=url]', $(this).closest('form')).not($(this)).each(function () {
+                    $(':input[name*=metas][id$=url]', $(this).closest('form')).not($(this)).each(function () {
                         if ($.trim($(this).val()).length == 0 || $.trim($(this).val()) == value) {
                             $(this).val(value);
                         }
                     });
-                });
+                }).trigger('keydown');
             });
         </script>
     {% endspaceless %}

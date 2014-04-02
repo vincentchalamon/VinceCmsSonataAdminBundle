@@ -39,18 +39,11 @@ class MenuAdmin extends Admin
     protected $menuRepository;
 
     /**
-     * Public path
+     * Upload directory
      *
      * @var string
      */
-    protected $publicPath;
-
-    /**
-     * Upload directory name
-     *
-     * @var string
-     */
-    protected $uploadDirName;
+    protected $uploadDir;
 
     /**
      * Set Menu repository
@@ -69,33 +62,17 @@ class MenuAdmin extends Admin
     }
 
     /**
-     * Set public path
+     * Set upload directory
      *
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
      *
-     * @param string $publicPath
+     * @param string $uploadDir
      *
      * @return MenuAdmin
      */
-    public function setPublicPath($publicPath)
+    public function setUploadDir($uploadDir)
     {
-        $this->publicPath = $publicPath;
-
-        return $this;
-    }
-
-    /**
-     * Set upload directory name
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param string $uploadDirName
-     *
-     * @return MenuAdmin
-     */
-    public function setUploadDirName($uploadDirName)
-    {
-        $this->uploadDirName = $uploadDirName;
+        $this->uploadDir = $uploadDir;
 
         return $this;
     }
@@ -242,8 +219,8 @@ class MenuAdmin extends Admin
     public function preRemove($object)
     {
         /** @var Menu $object */
-        if ($object->isImage() && is_file($this->publicPath.$object->getPath())) {
-            unlink($this->publicPath.$object->getPath());
+        if ($object->isImage() && is_file($this->uploadDir.pathinfo($object->getPath(), PATHINFO_BASENAME))) {
+            unlink($this->uploadDir.pathinfo($object->getPath(), PATHINFO_BASENAME));
         }
         $this->menuRepository->verify();
         $this->menuRepository->recover();
@@ -256,7 +233,7 @@ class MenuAdmin extends Admin
     {
         /** @var Menu $object */
         if ($object->isImage()) {
-            $object->upload($this->publicPath, $this->uploadDirName);
+            $object->upload($this->uploadDir);
         }
         $this->menuRepository->verify();
         $this->menuRepository->recover();
@@ -269,7 +246,7 @@ class MenuAdmin extends Admin
     {
         /** @var Menu $object */
         if ($object->isImage()) {
-            $object->upload($this->publicPath, $this->uploadDirName);
+            $object->upload($this->uploadDir);
         }
         $this->menuRepository->verify();
         $this->menuRepository->recover();

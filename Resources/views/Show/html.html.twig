@@ -2,10 +2,10 @@
 
 {% block field %}
     {% spaceless %}
-        {%- if value is empty -%}
+        {% if value is empty %}
             &nbsp;
-        {%- else -%}
+        {% else %}
             {{ value|raw }}
-        {%- endif -%}
+        {% endif %}
     {% endspaceless %}
 {% endblock %}

@@ -26,7 +26,18 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('vince_cms_sonata_admin');
+        $treeBuilder->root('vince_cms_sonata_admin')
+            ->children()
+                ->scalarNode('article')
+                    ->defaultValue('Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\ArticleAdmin')
+                ->end()
+                ->scalarNode('menu')
+                    ->defaultValue('Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\MenuAdmin')
+                ->end()
+                ->scalarNode('block')
+                    ->defaultValue('Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\BlockAdmin')
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

@@ -12,11 +12,12 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
-use My\Bundle\CmsBundle\Entity\ArticleMeta;
+use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\SecurityContext;
 use Vince\Bundle\CmsBundle\Entity\Article;
 use Vince\Bundle\CmsBundle\Entity\Content;
@@ -75,6 +76,20 @@ class ArticleAdmin extends Admin
     protected $em;
 
     /**
+     * Cache dir
+     *
+     * @var string
+     */
+    protected $cacheDir;
+
+    /**
+     * ArticleMeta class
+     *
+     * @var string
+     */
+    protected $articleMetaClass;
+
+    /**
      * Set Meta repository
      *
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
@@ -123,6 +138,30 @@ class ArticleAdmin extends Admin
     }
 
     /**
+     * Set cache dir
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param string $cacheDir
+     */
+    public function setCacheDir($cacheDir)
+    {
+        $this->cacheDir = $cacheDir;
+    }
+
+    /**
+     * Set ArticleMeta class
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param string $articleMetaClass
+     */
+    public function setArticleMetaClass($articleMetaClass)
+    {
+        $this->articleMetaClass = $articleMetaClass;
+    }
+
+    /**
      * Need to override createQuery method because or list order & joins
      *
      * {@inheritdoc}
@@ -158,8 +197,9 @@ class ArticleAdmin extends Admin
             $builder->expr()->in('m.name', array('language', 'og:type', 'twitter:card', 'author', 'publisher', 'twitter:creator'))
         )->getQuery()->execute();
         foreach ($metas as $meta) {
+            /** @var ArticleMeta $articleMeta */
+            $articleMeta = new $this->articleMetaClass();
             /** @var Meta $meta */
-            $articleMeta = new ArticleMeta();
             $articleMeta->setMeta($meta);
             switch ($meta->getName()) {
                 case 'language':
@@ -205,7 +245,7 @@ class ArticleAdmin extends Admin
                     'label' => 'article.field.title'
                 )
             )
-            ->add('url', 'url', array(
+            ->add('routePattern', 'url', array(
                     'label' => 'article.field.url'
                 )
             )
@@ -298,9 +338,8 @@ class ArticleAdmin extends Admin
                         'label' => 'article.field.title'
                     )
                 )
-                ->add('summary', null, array(
+                ->add('summary', 'redactor', array(
                         'label' => 'article.field.summary',
-                        'required' => false,
                         'help' => 'article.help.summary'
                     )
                 )
@@ -346,8 +385,7 @@ class ArticleAdmin extends Admin
             ->end()
             ->with('article.group.template')
                 ->add('template', null, array(
-                        'label' => 'article.field.template',
-                        'required' => false
+                        'label' => 'article.field.template'
                     )
                 )
                 ->add('contents', 'template', array(
@@ -359,48 +397,78 @@ class ArticleAdmin extends Admin
     }
 
     /**
-     * Need to remove contents for other templates.
-     * Force relation because of doctrine2 bug on cascade persist for OneToMany association.
-     *
      * {@inheritdoc}
      */
     public function prePersist($object)
     {
         /** @var Article $object */
-        foreach ($object->getMetas() as $meta) {
-            /** @var ArticleMeta $meta */
-            $meta->setArticle($object);
-        }
+        // Remove empty contents or from other templates
         foreach ($object->getContents() as $content) {
             /** @var Content $content */
-            $content->setArticle($object);
-            if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()) {
+            if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()
+                || !trim(strip_tags($content->getContents()))) {
                 $object->removeContent($content);
                 $this->em->remove($content);
+            }
+        }
+        // Remove empty metas
+        foreach ($object->getMetas() as $meta) {
+            /** @var ArticleMeta $meta */
+            if (!trim(strip_tags($meta->getContents()))) {
+                $object->removeMeta($meta);
+                $this->em->remove($meta);
             }
         }
     }
 
     /**
-     * Need to remove contents for other templates.
-     * Force relation because of doctrine2 bug on cascade persist for OneToMany association.
-     *
      * {@inheritdoc}
      */
     public function preUpdate($object)
     {
         /** @var Article $object */
-        foreach ($object->getMetas() as $meta) {
-            /** @var ArticleMeta $meta */
-            $meta->setArticle($object);
-        }
+        // Remove empty contents or from other templates
         foreach ($object->getContents() as $content) {
             /** @var Content $content */
-            $content->setArticle($object);
-            if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()) {
+            if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()
+                || !trim(strip_tags($content->getContents()))) {
                 $object->removeContent($content);
                 $this->em->remove($content);
             }
+        }
+        // Remove empty metas
+        foreach ($object->getMetas() as $meta) {
+            /** @var ArticleMeta $meta */
+            if (!trim(strip_tags($meta->getContents()))) {
+                $object->removeMeta($meta);
+                $this->em->remove($meta);
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postPersist($object)
+    {
+        // Need to clear router cache
+        $files = Finder::create()->files()->name('/app[A-z]+Url(?:Generator|Matcher)\.php/')->in($this->cacheDir);
+        foreach ($files as $file) {
+            /** @var \SplFileInfo $file */
+            unlink($file->__toString());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postUpdate($object)
+    {
+        // Need to clear router cache
+        $files = Finder::create()->files()->name('/app[A-z]+Url(?:Generator|Matcher)\.php/')->in($this->cacheDir);
+        foreach ($files as $file) {
+            /** @var \SplFileInfo $file */
+            unlink($file->__toString());
         }
     }
 }

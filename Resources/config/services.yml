@@ -1,6 +1,6 @@
 services:
     vince.admin.article:
-        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\ArticleAdmin
+        class: %vince.admin.article.class%
         tags:
             - name: sonata.admin
               manager_type: orm
@@ -14,9 +14,11 @@ services:
             - [ setLocale, [ @form.type_extension.locale_listener ] ]
             - [ setUser, [ @security.context ] ]
             - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
+            - [ setCacheDir, [ %kernel.cache_dir% ] ]
+            - [ setArticleMetaClass, [ %vince.class.articlemeta% ] ]
 
     vince.admin.block:
-        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\BlockAdmin
+        class: %vince.admin.block.class%
         tags:
             - name: sonata.admin
               manager_type: orm
@@ -28,7 +30,7 @@ services:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
     vince.admin.menu:
-        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\MenuAdmin
+        class: %vince.admin.menu.class%
         tags:
             - name: sonata.admin
               manager_type: orm
@@ -39,8 +41,7 @@ services:
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]
-            - [ setPublicPath, [ %kernel.web_dir% ] ]
-            - [ setUploadDirName, [ %kernel.uploads_path% ] ]
+            - [ setUploadDir, [ %kernel.upload_dir% ] ]
 
     form.type_extension.filename:
         class: Vince\Bundle\CmsSonataAdminBundle\Form\Extension\FilenameTypeExtension

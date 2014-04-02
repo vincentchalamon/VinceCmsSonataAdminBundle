@@ -2,10 +2,12 @@
 
 {% block field %}
     {% spaceless %}
-        {%- if value is empty -%}
+        {% if object.routeName is defined %}
+            <a href="{{ path(object.routeName) }}" target="_blank" class="url">{{ value }}</a>
+        {% elseif value is empty %}
             &nbsp;
-        {%- else -%}
+        {% else %}
             <a href="{{ value }}" target="_blank" class="url">{{ value }}</a>
-        {%- endif -%}
+        {% endif %}
     {% endspaceless %}
 {% endblock %}

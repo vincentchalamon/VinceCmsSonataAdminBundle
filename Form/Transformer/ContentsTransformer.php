@@ -104,7 +104,7 @@ class ContentsTransformer implements DataTransformerInterface
                              ->getQuery()->getOneOrNullResult();
             if ($template) {
                 foreach ($contents as $name => $content) {
-                    if (trim($content) && $area = $template->getArea($name)) {
+                    if (trim(strip_tags($content)) && $area = $template->getArea($name)) {
                         /** @var Content $articleContent */
                         $articleContent = new $this->class();
                         $articleContent->setArea($area);

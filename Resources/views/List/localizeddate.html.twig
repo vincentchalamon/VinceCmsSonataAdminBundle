@@ -2,12 +2,12 @@
 
 {% block field %}
     {% spaceless %}
-        {%- if value is empty -%}
+        {% if value is empty %}
             &nbsp;
-        {%- elseif field_description.options.format is defined -%}
+        {% elseif field_description.options.format is defined %}
             {{ value|localizeddate(field_description.options.format, 'none')|capitalize }}
-        {%- else -%}
+        {% else %}
             {{ value|localizeddate('full', 'none')|capitalize }}
-        {%- endif -%}
+        {% endif %}
     {% endspaceless %}
 {% endblock %}
