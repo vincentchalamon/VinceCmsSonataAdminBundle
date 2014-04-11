@@ -269,7 +269,10 @@ class ArticleAdmin extends Admin
             )
             ->add('publication', 'doctrine_orm_callback', array(
                     'label' => 'article.field.publication',
-                    'callback' => function ($queryBuilder, $alias, $field, $value) {
+                    'callback' => function () {
+                            $queryBuilder = func_get_arg(0);
+                            $alias        = func_get_arg(1);
+                            $value        = func_get_arg(3);
                             if (!$value) {
                                 return;
                             }
