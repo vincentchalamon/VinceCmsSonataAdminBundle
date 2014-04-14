@@ -1,4 +1,15 @@
 cms: CMS
+action:
+    publish: Publier
+    unpublish: Dépublier
+
+flash:
+    success:
+        batch_publish: Les éléments sélectionnés ont été publiés avec succès.
+        batch_unpublish: Les éléments sélectionnés ont été dépubliés avec succès.
+    error:
+        batch_publish: Une erreur est intervenue lors de la publication des éléments sélectionnés.
+        batch_unpublish: Une erreur est intervenue lors de la dépublication des éléments sélectionnés.
 
 Article List: Articles
 article:

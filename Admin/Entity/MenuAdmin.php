@@ -78,6 +78,48 @@ class MenuAdmin extends Admin
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getBatchActions()
+    {
+        return array_merge(parent::getBatchActions(), array(
+                'publish' => array(
+                    'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                ),
+                'unpublish' => array(
+                    'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                )
+            )
+        );
+    }
+
+    /**
+     * Publish element
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Menu $object
+     */
+    public function publish(Menu $object)
+    {
+        $object->publish();
+    }
+
+    /**
+     * Unpublish element
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Menu $object
+     */
+    public function unpublish(Menu $object)
+    {
+        $object->unpublish();
+    }
+
+    /**
      * Need to override createQuery method because or list order & joins
      *
      * {@inheritdoc}

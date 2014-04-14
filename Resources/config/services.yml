@@ -7,7 +7,7 @@ services:
               group: cms
               label_catalogue: SonataAdminBundle
               label: Articles
-        arguments: [ ~, %vince.class.article%, ~ ]
+        arguments: [ ~, %vince.class.article%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMetaRepository, [ @vince.repository.meta ] ]
@@ -25,7 +25,7 @@ services:
               group: cms
               label_catalogue: SonataAdminBundle
               label: Blocs
-        arguments: [ ~, %vince.class.block%, ~ ]
+        arguments: [ ~, %vince.class.block%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
@@ -37,7 +37,7 @@ services:
               group: cms
               label_catalogue: SonataAdminBundle
               label: Menus
-        arguments: [ ~, %vince.class.menu%, ~ ]
+        arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:MenuAdmin ]
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]

@@ -162,6 +162,24 @@ class ArticleAdmin extends Admin
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getBatchActions()
+    {
+        return array_merge(parent::getBatchActions(), array(
+                'publish' => array(
+                    'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                ),
+                'unpublish' => array(
+                    'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                )
+            )
+        );
+    }
+
+    /**
      * Need to override createQuery method because or list order & joins
      *
      * {@inheritdoc}

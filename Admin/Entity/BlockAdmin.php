@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Vince\Bundle\CmsBundle\Entity\Block;
 
 /**
  * Bock admin
@@ -37,6 +38,48 @@ class BlockAdmin extends Admin
         '_sort_order' => 'ASC',
         '_sort_by'    => 'title'
     );
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBatchActions()
+    {
+        return array_merge(parent::getBatchActions(), array(
+                'publish' => array(
+                    'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                ),
+                'unpublish' => array(
+                    'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
+                    'ask_confirmation' => true
+                )
+            )
+        );
+    }
+
+    /**
+     * Publish element
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Block $object
+     */
+    public function publish(Block $object)
+    {
+        $object->publish();
+    }
+
+    /**
+     * Unpublish element
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Block $object
+     */
+    public function unpublish(Block $object)
+    {
+        $object->unpublish();
+    }
 
     /**
      * Configure routes

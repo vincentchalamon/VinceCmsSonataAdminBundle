@@ -8,7 +8,6 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Vince\Bundle\CmsBundle\Entity\Menu;
 use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
@@ -18,7 +17,7 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class MenuAdminController extends Controller
+class MenuAdminController extends PublishableController
 {
 
     /**
