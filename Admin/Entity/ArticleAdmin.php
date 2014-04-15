@@ -13,8 +13,6 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Finder\Finder;
@@ -30,7 +28,7 @@ use Sonata\UserBundle\Entity\BaseUser;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class ArticleAdmin extends Admin
+class ArticleAdmin extends PublishableAdmin
 {
 
     /**
@@ -267,85 +265,8 @@ class ArticleAdmin extends Admin
                     'label' => 'article.field.url'
                 )
             )
-            ->add('publication', 'trans', array(
-                    'label' => 'article.field.publication',
-                    'catalogue' => 'VinceCms'
-                )
-            )
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $mapper)
-    {
-        $mapper
-            ->add('title', null, array(
-                    'label' => 'article.field.title'
-                )
-            )
-            ->add('publication', 'doctrine_orm_callback', array(
-                    'label' => 'article.field.publication',
-                    'callback' => function () {
-                            $queryBuilder = func_get_arg(0);
-                            $alias        = func_get_arg(1);
-                            $value        = func_get_arg(3);
-                            if (!$value) {
-                                return;
-                            }
-                            switch ($value['value']) {
-                                case 'Never published':
-                                    $queryBuilder->andWhere($queryBuilder->expr()->andX(
-                                            $queryBuilder->expr()->isNull(sprintf('%s.startedAt', $alias)),
-                                            $queryBuilder->expr()->isNull(sprintf('%s.endedAt', $alias))
-                                        ));
-                                    break;
-
-                                case 'Published':
-                                    $queryBuilder->andWhere($queryBuilder->expr()->andX(
-                                            $queryBuilder->expr()->isNull(sprintf('%s.endedAt', $alias)),
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.startedAt', $alias)),
-                                            $queryBuilder->expr()->lte(sprintf('%s.startedAt', $alias), ':now')
-                                        ))->setParameter('now', new \DateTime());
-                                    break;
-
-                                case 'Pre-published':
-                                    $queryBuilder->andWhere($queryBuilder->expr()->andX(
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.startedAt', $alias)),
-                                            $queryBuilder->expr()->gt(sprintf('%s.startedAt', $alias), ':now')
-                                        ))->setParameter('now', new \DateTime());
-                                    break;
-
-                                case 'Post-published':
-                                    $queryBuilder->andWhere($queryBuilder->expr()->andX(
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.startedAt', $alias)),
-                                            $queryBuilder->expr()->lt(sprintf('%s.startedAt', $alias), ':now'),
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.endedAt', $alias)),
-                                            $queryBuilder->expr()->lt(sprintf('%s.endedAt', $alias), ':now')
-                                        ))->setParameter('now', new \DateTime());
-                                    break;
-
-                                case 'Published temp':
-                                    $queryBuilder->andWhere($queryBuilder->expr()->andX(
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.startedAt', $alias)),
-                                            $queryBuilder->expr()->lte(sprintf('%s.startedAt', $alias), ':now'),
-                                            $queryBuilder->expr()->isNotNull(sprintf('%s.endedAt', $alias)),
-                                            $queryBuilder->expr()->gte(sprintf('%s.endedAt', $alias), ':now')
-                                        ))->setParameter('now', new \DateTime());
-                                    break;
-                            }
-                        }
-                ), 'choice', array(
-                    'choices' => array(
-                        'Never published' => $this->trans('Never published', array(), 'VinceCms'),
-                        'Published' => $this->trans('Published', array(), 'VinceCms'),
-                        'Pre-published' => $this->trans('Pre-published', array(), 'VinceCms'),
-                        'Post-published' => $this->trans('Post-published', array(), 'VinceCms'),
-                        'Published temp' => $this->trans('Published temp', array(), 'VinceCms')
-                    )
-                )
-            );
+        parent::configureListFields($mapper);
     }
 
     /**
@@ -372,32 +293,21 @@ class ArticleAdmin extends Admin
                 )
             ;
         if ($this->getSubject()->getSlug() != 'homepage') {
-            $mapper
-                    ->add('url', null, array(
-                            'label' => 'article.field.customUrl',
-                            'required' => false,
-                            'help' => 'article.help.customUrl',
-                            'attr' => array(
-                                'placeholder' => $this->getSubject()->getRoutePattern()
-                            )
-                        )
+            $mapper->add('url', null, array(
+                    'label' => 'article.field.customUrl',
+                    'required' => false,
+                    'help' => 'article.help.customUrl',
+                    'attr' => array(
+                        'placeholder' => $this->getSubject()->getRoutePattern()
                     )
-                ->end()
-                ->with('article.group.publication')
-                    ->add('startedAt', 'datepicker', array(
-                            'label' => 'article.field.startedAt',
-                            'required' => false
-                        )
-                    )
-                    ->add('endedAt', 'datepicker', array(
-                            'label' => 'article.field.endedAt',
-                            'required' => false
-                        )
-                    )
-            ;
+                )
+            );
+        }
+        $mapper->end();
+        if ($this->getSubject()->getSlug() != 'homepage') {
+            parent::configureFormFields($mapper);
         }
         $mapper
-            ->end()
             ->with('article.group.metas')
                 ->add('metas', 'metagroup', array(
                         'label' => false

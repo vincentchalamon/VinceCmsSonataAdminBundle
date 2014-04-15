@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Vince\Bundle\CmsBundle\Entity\Article;
 
 /**
  * Class PublishableController
@@ -66,7 +67,7 @@ class PublishableController extends CRUDController
             $i       = 0;
             $em      = $this->get('doctrine.orm.default_entity_manager');
             foreach ($objects as $object) {
-                if ($object[0]->getSlug() != 'homepage') {
+                if (!$object[0] instanceof Article || $object[0]->getSlug() != 'homepage') {
                     $object[0]->unpublish();
                 }
                 $em->persist($object[0]);

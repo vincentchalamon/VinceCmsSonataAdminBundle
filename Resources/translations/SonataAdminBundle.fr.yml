@@ -2,6 +2,10 @@ cms: CMS
 action:
     publish: Publier
     unpublish: Dépublier
+field:
+    publication: Publication
+    startedAt: Début de publication
+    endedAt: Fin de publication
 
 flash:
     success:
@@ -15,7 +19,6 @@ Article List: Articles
 article:
     group:
         general: Général
-        publication: Publication
         metas: SEO
         template: Mise en page
     field:
@@ -24,9 +27,6 @@ article:
         summary: Résumé
         tags: Tags
         customUrl: Url personnalisée
-        startedAt: Début de publication
-        endedAt: Fin de publication
-        publication: Publication
         metas: SEO
         template: Gabarit
         contents: Contenus
@@ -40,7 +40,6 @@ Menu List: Menus
 menu:
     group:
         general: Général
-        publication: Publication
         url: Destination
     field:
         up: Monter
@@ -52,8 +51,6 @@ menu:
         image: S'agit-il d'une image ?
         path: Image
         target: Destination
-        startedAt: Début de publication
-        endedAt: Fin de publication
     help:
         url: Celle-ci doit commencer par /. Préférez un tiret (-) comme séparateur.
         article: Si vous liez ce menu à un article, l'url du menu sera ignorée.

@@ -11,8 +11,6 @@
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Vince\Bundle\CmsBundle\Entity\Menu;
@@ -23,7 +21,7 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class MenuAdmin extends Admin
+class MenuAdmin extends PublishableAdmin
 {
 
     /**
@@ -44,6 +42,13 @@ class MenuAdmin extends Admin
      * @var string
      */
     protected $uploadDir;
+
+    /**
+     * Web directory
+     *
+     * @var string
+     */
+    protected $webDir;
 
     /**
      * Set Menu repository
@@ -67,12 +72,14 @@ class MenuAdmin extends Admin
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
      *
      * @param string $uploadDir
+     * @param string $webDir
      *
      * @return MenuAdmin
      */
-    public function setUploadDir($uploadDir)
+    public function setUploadDir($uploadDir, $webDir)
     {
         $this->uploadDir = $uploadDir;
+        $this->webDir    = $webDir;
 
         return $this;
     }
@@ -96,31 +103,7 @@ class MenuAdmin extends Admin
     }
 
     /**
-     * Publish element
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param Menu $object
-     */
-    public function publish(Menu $object)
-    {
-        $object->publish();
-    }
-
-    /**
-     * Unpublish element
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param Menu $object
-     */
-    public function unpublish(Menu $object)
-    {
-        $object->unpublish();
-    }
-
-    /**
-     * Need to override createQuery method because or list order & joins
+     * Need to override createQuery method because of list order & joins
      *
      * {@inheritdoc}
      */
@@ -158,14 +141,7 @@ class MenuAdmin extends Admin
                 )
             )
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $mapper)
-    {
-        $mapper->add('title');
+        parent::configureListFields($mapper);
     }
 
     /**
@@ -214,19 +190,8 @@ class MenuAdmin extends Admin
                         'filename' => $this->getSubject()->getPath()
                     )
                 )
-            ->end()
-            ->with('menu.group.publication')
-                ->add('startedAt', 'datepicker', array(
-                        'label' => 'menu.field.startedAt',
-                        'required' => false
-                    )
-                )
-                ->add('endedAt', 'datepicker', array(
-                        'label' => 'menu.field.endedAt',
-                        'required' => false
-                    )
-                )
             ->end();
+        parent::configureFormFields($mapper);
         if (!$id || $this->getSubject()->getParent()) {
             $mapper
                 ->with('menu.group.url')
@@ -275,7 +240,7 @@ class MenuAdmin extends Admin
     {
         /** @var Menu $object */
         if ($object->isImage()) {
-            $object->upload($this->uploadDir);
+            $object->upload($this->uploadDir, $this->webDir);
         }
         $this->menuRepository->verify();
         $this->menuRepository->recover();
@@ -288,7 +253,7 @@ class MenuAdmin extends Admin
     {
         /** @var Menu $object */
         if ($object->isImage()) {
-            $object->upload($this->uploadDir);
+            $object->upload($this->uploadDir, $this->webDir);
         }
         $this->menuRepository->verify();
         $this->menuRepository->recover();

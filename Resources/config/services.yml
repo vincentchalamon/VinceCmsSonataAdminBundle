@@ -41,7 +41,7 @@ services:
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]
-            - [ setUploadDir, [ %kernel.upload_dir% ] ]
+            - [ setUploadDir, [ %kernel.upload_dir%, %kernel.web_dir% ] ]
 
     form.type_extension.filename:
         class: Vince\Bundle\CmsSonataAdminBundle\Form\Extension\FilenameTypeExtension

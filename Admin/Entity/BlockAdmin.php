@@ -10,19 +10,16 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Vince\Bundle\CmsBundle\Entity\Block;
 
 /**
  * Bock admin
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class BlockAdmin extends Admin
+class BlockAdmin extends PublishableAdmin
 {
 
     /**
@@ -40,48 +37,6 @@ class BlockAdmin extends Admin
     );
 
     /**
-     * {@inheritdoc}
-     */
-    public function getBatchActions()
-    {
-        return array_merge(parent::getBatchActions(), array(
-                'publish' => array(
-                    'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                ),
-                'unpublish' => array(
-                    'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                )
-            )
-        );
-    }
-
-    /**
-     * Publish element
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param Block $object
-     */
-    public function publish(Block $object)
-    {
-        $object->publish();
-    }
-
-    /**
-     * Unpublish element
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param Block $object
-     */
-    public function unpublish(Block $object)
-    {
-        $object->unpublish();
-    }
-
-    /**
      * Configure routes
      *
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
@@ -90,7 +45,7 @@ class BlockAdmin extends Admin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->clearExcept(array('list', 'edit'));
+        $collection->clearExcept(array('list', 'edit', 'batch'));
     }
 
     /**
@@ -98,25 +53,11 @@ class BlockAdmin extends Admin
      */
     protected function configureListFields(ListMapper $mapper)
     {
-        $mapper
-            ->addIdentifier('title', null, array(
-                    'label' => 'block.field.title'
-                )
+        $mapper->addIdentifier('title', null, array(
+                'label' => 'block.field.title'
             )
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $mapper)
-    {
-        $mapper
-            ->add('title', null, array(
-                    'label' => 'block.field.title'
-                )
-            )
-        ;
+        );
+        parent::configureListFields($mapper);
     }
 
     /**
@@ -126,10 +67,15 @@ class BlockAdmin extends Admin
     {
         $mapper
             ->with('block.field.contents')
+                ->add('title', null, array(
+                        'label' => 'block.field.title'
+                    )
+                )
                 ->add('contents', 'redactor', array(
-                        'label' => false
+                        'label' => 'block.field.contents'
                     )
                 )
             ->end();
+        parent::configureFormFields($mapper);
     }
 }
