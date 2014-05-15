@@ -8,7 +8,7 @@
     {% endif %}
 {% endblock %}
 
-{% block footer %}
+{% block sonata_page_content %}
     {{ parent() }}
     {% if form is defined %}
         {% javascripts '@VinceCmsSonataAdminBundle/Resources/public/js/url.js' filter='?yui_js' %}
