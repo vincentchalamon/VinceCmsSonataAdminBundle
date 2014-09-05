@@ -50,5 +50,44 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
         if (isset($bundles['AsseticBundle']) && $container->hasExtension('assetic')) {
             $container->prependExtensionConfig('assetic', array('bundles' => array('VinceCmsSonataAdminBundle')));
         }
+
+        // Configure SonataDoctrineORMAdmin if SonataDoctrineORMAdminBundle is activated
+        if (isset($bundles['SonataDoctrineORMAdminBundle']) && $container->hasExtension('sonata_doctrine_orm_admin')) {
+            $container->prependExtensionConfig('sonata_doctrine_orm_admin', array(
+                    'templates' => array(
+                        'types' => array(
+                            'list' => array(
+                                'localizeddate'   => 'VinceCmsSonataAdminBundle:List:localizeddate.html.twig',
+                                'array'           => 'VinceCmsSonataAdminBundle:List:array.html.twig',
+                                'url'             => 'VinceCmsSonataAdminBundle:List:url.html.twig',
+                                'html'            => 'VinceCmsSonataAdminBundle:List:html.html.twig',
+                                'field_tree_up'   => 'VinceCmsSonataAdminBundle:List:field_tree_up.html.twig',
+                                'field_tree_down' => 'VinceCmsSonataAdminBundle:List:field_tree_down.html.twig'
+                            ),
+                            'show' => array(
+                                'localizeddate'   => 'VinceCmsSonataAdminBundle:Show:localizeddate.html.twig',
+                                'array'           => 'VinceCmsSonataAdminBundle:Show:array.html.twig',
+                                'url'             => 'VinceCmsSonataAdminBundle:Show:url.html.twig',
+                                'html'            => 'VinceCmsSonataAdminBundle:Show:html.html.twig'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+
+        // Configure SonataAdmin if SonataAdminBundle is activated
+        if (isset($bundles['SonataAdminBundle']) && $container->hasExtension('sonata_admin')) {
+            $container->prependExtensionConfig('sonata_admin', array(
+                    'templates' => array(
+                        'layout' => 'VinceCmsSonataAdminBundle::standard_layout.html.twig'
+                    ),
+                    'options' => array(
+                        'confirm_exit' => false
+                    ),
+                    'title' => 'Vince CMS'
+                )
+            );
+        }
     }
 }
