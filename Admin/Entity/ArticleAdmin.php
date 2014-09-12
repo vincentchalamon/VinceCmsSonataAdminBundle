@@ -337,7 +337,7 @@ class ArticleAdmin extends PublishableAdmin
         foreach ($object->getContents() as $content) {
             /** @var Content $content */
             if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()
-                || !trim(strip_tags($content->getContents()))) {
+                || !trim(strip_tags($content->getContents())) || is_null($content->getContents())) {
                 $object->removeContent($content);
                 $this->em->remove($content);
             }
@@ -362,7 +362,7 @@ class ArticleAdmin extends PublishableAdmin
         foreach ($object->getContents() as $content) {
             /** @var Content $content */
             if ($content->getArea()->getTemplate()->getId() != $object->getTemplate()->getId()
-                || !trim(strip_tags($content->getContents()))) {
+                || !trim(strip_tags($content->getContents())) || is_null($content->getContents())) {
                 $object->removeContent($content);
                 $this->em->remove($content);
             }
