@@ -108,9 +108,9 @@
             $(function () {
                 $('#{{ id }}').on('change', function () {
                     if ($(this).is(':checked')) {
-                        $(':input[id$=_file]', $(this).closest('form')).closest('.control-group').show();
+                        $(':input[id$=_file]', $(this).closest('form')).closest('.form-group').show();
                     } else {
-                        $(':input[id$=_file]', $(this).closest('form')).closest('.control-group').hide();
+                        $(':input[id$=_file]', $(this).closest('form')).closest('.form-group').hide();
                     }
                 }).trigger('change');
             });

@@ -66,7 +66,7 @@ class BlockAdmin extends PublishableAdmin
     protected function configureFormFields(FormMapper $mapper)
     {
         $mapper
-            ->with('block.field.contents')
+            ->with('block.field.contents', array('class' => 'col-md-6'))
                 ->add('title', null, array(
                         'label' => 'block.field.title'
                     )

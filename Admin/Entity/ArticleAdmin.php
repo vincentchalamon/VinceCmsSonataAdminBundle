@@ -275,7 +275,7 @@ class ArticleAdmin extends PublishableAdmin
     protected function configureFormFields(FormMapper $mapper)
     {
         $mapper
-            ->with('article.group.general')
+            ->with('article.group.general', array('class' => 'col-md-6'))
                 ->add('title', null, array(
                         'label' => 'article.field.title'
                     )
@@ -308,13 +308,13 @@ class ArticleAdmin extends PublishableAdmin
             parent::configureFormFields($mapper);
         }
         $mapper
-            ->with('article.group.metas')
+            ->with('article.group.metas', array('class' => 'col-md-6'))
                 ->add('metas', 'metagroup', array(
                         'label' => false
                     )
                 )
             ->end()
-            ->with('article.group.template')
+            ->with('article.group.template', array('class' => 'col-md-12'))
                 ->add('template', null, array(
                         'label' => 'article.field.template'
                     )

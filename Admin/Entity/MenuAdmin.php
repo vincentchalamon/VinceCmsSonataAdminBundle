@@ -158,7 +158,7 @@ class MenuAdmin extends PublishableAdmin
     protected function configureFormFields(FormMapper $mapper)
     {
         $id = $this->getSubject()->getId();
-        $mapper->with('menu.group.general');
+        $mapper->with('menu.group.general', array('class' => 'col-md-6'));
         if (!$id || $this->getSubject()->getLvl()) {
             $mapper
                 ->add('parent', null, array(
@@ -194,7 +194,7 @@ class MenuAdmin extends PublishableAdmin
         parent::configureFormFields($mapper);
         if (!$id || $this->getSubject()->getParent()) {
             $mapper
-                ->with('menu.group.url')
+                ->with('menu.group.url', array('class' => 'col-md-6'))
                     ->add('url', null, array(
                             'label' => 'menu.field.url',
                             'help' => 'menu.help.url',

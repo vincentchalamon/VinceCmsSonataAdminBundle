@@ -127,7 +127,7 @@ class PublishableAdmin extends Admin
     protected function configureFormFields(FormMapper $mapper)
     {
         $mapper
-            ->with('field.publication')
+            ->with('field.publication', array('class' => 'col-md-6'))
                 ->add('startedAt', 'datepicker', array(
                         'label' => 'field.startedAt',
                         'required' => false
