@@ -5,3 +5,7 @@
 .control-group span.help-block {
     clear: both;
 }
+div.sonata-medium-date div {
+    width: auto !important;
+    margin-right: 10px;
+}
