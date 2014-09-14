@@ -160,6 +160,20 @@ class ArticleAdmin extends PublishableAdmin
     }
 
     /**
+     * Check if object can be batched
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Article $object
+     *
+     * @return bool
+     */
+    public function canBatch(Article $object)
+    {
+        return !$object->isSystem();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getBatchActions()
@@ -282,7 +296,8 @@ class ArticleAdmin extends PublishableAdmin
                 )
                 ->add('summary', 'redactor', array(
                         'label' => 'article.field.summary',
-                        'help' => 'article.help.summary'
+                        'help' => 'article.help.summary',
+                        'minHeight' => 100
                     )
                 )
                 ->add('tags', 'list', array(
@@ -308,18 +323,18 @@ class ArticleAdmin extends PublishableAdmin
             parent::configureFormFields($mapper);
         }
         $mapper
-            ->with('article.group.metas', array('class' => 'col-md-6'))
-                ->add('metas', 'metagroup', array(
-                        'label' => false
-                    )
-                )
-            ->end()
             ->with('article.group.template', array('class' => 'col-md-12'))
                 ->add('template', null, array(
                         'label' => 'article.field.template'
                     )
                 )
                 ->add('contents', 'template', array(
+                        'label' => false
+                    )
+                )
+            ->end()
+            ->with('article.group.metas', array('class' => 'col-md-12'))
+                ->add('metas', 'metagroup', array(
                         'label' => false
                     )
                 )

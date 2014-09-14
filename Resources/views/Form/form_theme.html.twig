@@ -1,3 +1,20 @@
+{% extends '@SonataAdmin/Form/form_admin_fields.html.twig' %}
+
+{% block form_widget_simple %}
+    {% if type is defined and type == 'file' %}
+        {{ block('file_widget') }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block file_widget %}
+    {% spaceless %}
+        {% set attr = attr|merge({'data-buttonText': 'Download'|trans({}, 'SonataAdminBundle'), 'class': (attr.class ~ ' filestyle')|trim}) %}
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% endspaceless %}
+{% endblock %}
+
 {% block template_row %}
     {% spaceless %}
         {% for template in form if template|length > 0 %}
@@ -28,13 +45,15 @@
 {% block metagroup_row %}
     {% spaceless %}
         {% for group in form %}
-            {% if group.vars.label|length > 0 %}
-                <h3>{{ group.vars.label }}</h3>
-            {% endif %}
+            <div class="col-md-4">
+                {% if group.vars.label|length > 0 %}
+                    <h3>{{ group.vars.label }}</h3>
+                {% endif %}
 
-            {% for meta in group %}
-                {{ form_row(meta) }}
-            {% endfor %}
+                {% for meta in group %}
+                    {{ form_row(meta) }}
+                {% endfor %}
+            </div>
         {% endfor %}
     {% endspaceless %}
 {% endblock %}
@@ -106,7 +125,7 @@
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
-                $('#{{ id }}').on('change', function () {
+                $('#{{ id }}').on('ifChanged change', function () {
                     if ($(this).is(':checked')) {
                         $(':input[id$=_file]', $(this).closest('form')).closest('.form-group').show();
                     } else {

@@ -8,10 +8,12 @@
     {% endif %}
 {% endblock %}
 
-{% block sonata_page_content %}
+{% block javascripts %}
     {{ parent() }}
     {% if form is defined %}
-        {% javascripts '@VinceCmsSonataAdminBundle/Resources/public/js/url.js' filter='?yui_js' %}
+        {% javascripts  '@VinceCmsSonataAdminBundle/Resources/public/js/bootstrap-filestyle.min.js'
+                        '@VinceCmsSonataAdminBundle/Resources/public/js/url.js'
+                        filter='?yui_js' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {{ form_javascripts(form) }}

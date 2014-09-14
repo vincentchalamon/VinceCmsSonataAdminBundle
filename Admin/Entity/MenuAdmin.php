@@ -13,6 +13,7 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Vince\Bundle\CmsBundle\Entity\Menu;
 use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
 
@@ -49,6 +50,30 @@ class MenuAdmin extends PublishableAdmin
      * @var string
      */
     protected $webDir;
+
+    /**
+     * Check if object can be batched
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Menu $object
+     *
+     * @return bool
+     */
+    public function canBatch(Menu $object)
+    {
+        return !$object->isRoot();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->add('up', $this->getRouterIdParameter().'/up')
+                   ->add('down', $this->getRouterIdParameter().'/down');
+    }
 
     /**
      * Set Menu repository

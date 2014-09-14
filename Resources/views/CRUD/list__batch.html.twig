@@ -1,0 +1,9 @@
+{% extends '@SonataAdmin/CRUD/list__batch.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        {% if admin.canBatch is not defined or admin.canBatch(object) %}
+            {{ parent() }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

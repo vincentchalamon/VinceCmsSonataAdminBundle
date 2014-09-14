@@ -1,7 +1,0 @@
-admin_vince_cms_menu_up:
-    pattern: /admin/menus/{id}/up
-    defaults:  { _controller: VinceCmsSonataAdminBundle:MenuAdmin:up }
-
-admin_vince_cms_menu_down:
-    pattern: /admin/menus/{id}/down
-    defaults:  { _controller: VinceCmsSonataAdminBundle:MenuAdmin:down }

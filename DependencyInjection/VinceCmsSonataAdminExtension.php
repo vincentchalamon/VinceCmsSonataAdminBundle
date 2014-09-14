@@ -80,7 +80,8 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
         if (isset($bundles['SonataAdminBundle']) && $container->hasExtension('sonata_admin')) {
             $container->prependExtensionConfig('sonata_admin', array(
                     'templates' => array(
-                        'layout' => 'VinceCmsSonataAdminBundle::standard_layout.html.twig'
+                        'layout' => 'VinceCmsSonataAdminBundle::standard_layout.html.twig',
+                        'batch'  => 'VinceCmsSonataAdminBundle:CRUD:list__batch.html.twig'
                     ),
                     'options' => array(
                         'confirm_exit' => false

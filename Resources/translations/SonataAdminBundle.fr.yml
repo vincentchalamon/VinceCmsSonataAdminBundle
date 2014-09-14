@@ -1,4 +1,7 @@
+Download: Télécharger
 cms: CMS
+Publish: Publier
+Unpublish: Dépublier
 action:
     publish: Publier
     unpublish: Dépublier

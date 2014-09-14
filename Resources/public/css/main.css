@@ -9,3 +9,14 @@ div.sonata-medium-date div {
     width: auto !important;
     margin-right: 10px;
 }
+form .row .col-md-12 .col-md-12:last-of-type .box-body {
+    overflow: hidden;
+}
+.sonata-ba-list-field-field_tree_up span.glyphicon-chevron-up,
+.sonata-ba-list-field-field_tree_down span.glyphicon-chevron-down {
+    display: block;
+    text-align: center;
+}
+.bootstrap-filestyle .group-span-filestyle .glyphicon-folder-open {
+    margin-right: 5px;
+}
