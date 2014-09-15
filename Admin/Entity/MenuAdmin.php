@@ -60,9 +60,23 @@ class MenuAdmin extends PublishableAdmin
      *
      * @return bool
      */
-    public function canBatch(Menu $object)
+    public function canBeBatched(Menu $object)
     {
         return !$object->isRoot();
+    }
+
+    /**
+     * Check if object can be deleted
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Menu $object
+     *
+     * @return bool
+     */
+    public function canBeDeleted(Menu $object)
+    {
+        return $this->canBeBatched($object);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 {% block field %}
     {% spaceless %}
-        {% if admin.canBatch is not defined or admin.canBatch(object) %}
+        {% if admin.canBeBatched is not defined or admin.canBeBatched(object) %}
             {{ parent() }}
         {% endif %}
     {% endspaceless %}

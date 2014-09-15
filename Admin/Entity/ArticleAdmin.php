@@ -168,9 +168,23 @@ class ArticleAdmin extends PublishableAdmin
      *
      * @return bool
      */
-    public function canBatch(Article $object)
+    public function canBeBatched(Article $object)
     {
         return !$object->isSystem();
+    }
+
+    /**
+     * Check if object can be deleted
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param Article $object
+     *
+     * @return bool
+     */
+    public function canBeDeleted(Article $object)
+    {
+        return $this->canBeBatched($object);
     }
 
     /**

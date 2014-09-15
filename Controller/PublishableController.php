@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vince\Bundle\CmsBundle\Entity\Article;
 
 /**
@@ -21,6 +22,32 @@ use Vince\Bundle\CmsBundle\Entity\Article;
  */
 class PublishableController extends CRUDController
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteAction($id)
+    {
+        $id     = $this->get('request')->get($this->admin->getIdParameter());
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+        if (is_callable(array($this->admin, 'canDelete')) && !$this->admin->canBeDeleted($object)) {
+            if ($this->isXmlHttpRequest()) {
+                return $this->renderJson(array('result' => 'error'));
+            }
+            $this->addFlash(
+                'sonata_flash_error',
+                $this->admin->trans(
+                    'flash.error.locked',
+                    array('%name%' => $this->admin->toString($object)),
+                    'SonataAdminBundle'
+                )
+            );
+        }
+        return parent::deleteAction($id);
+    }
 
     /**
      * Execute a batch publish
