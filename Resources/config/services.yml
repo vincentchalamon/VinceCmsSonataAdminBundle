@@ -1,4 +1,9 @@
 services:
+    twig.extension.vince.cms_sonata_admin:
+        class: Vince\Bundle\CmsSonataAdminBundle\Twig\Extension\CmsSonataAdminExtension
+        tags:
+            - { name: twig.extension }
+
     vince.admin.article:
         class: %vince.admin.article.class%
         tags:

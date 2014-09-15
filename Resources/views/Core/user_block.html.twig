@@ -1,0 +1,15 @@
+{% block user_block %}
+    {% spaceless %}
+        <li class="user-header bg-light-blue">
+            <img src="{{ 'http://www.gravatar.com/avatar/' ~ app.user.email|md5 ~ '?s=120' }}" class="img-circle" alt="Avatar" />
+            <p>{{ app.user }}</p>
+        </li>
+        <li class="user-footer">
+            <div class="pull-right">
+                <a href="{{ path('sonata_user_admin_security_logout') }}" class="btn btn-default btn-flat">
+                    <i class="fa fa-sign-out fa-fw"></i> {{ 'user_block_logout'|trans({}, 'SonataUserBundle') }}
+                </a>
+            </div>
+        </li>
+    {% endspaceless %}
+{% endblock %}
