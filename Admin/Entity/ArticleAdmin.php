@@ -286,11 +286,8 @@ class ArticleAdmin extends PublishableAdmin
     {
         $mapper
             ->addIdentifier('title', null, array(
-                    'label' => 'article.field.title'
-                )
-            )
-            ->add('routePattern', 'url', array(
-                    'label' => 'article.field.url'
+                    'label' => 'article.field.title',
+                    'template' => 'VinceCmsSonataAdminBundle:List:url.html.twig'
                 )
             )
         ;
