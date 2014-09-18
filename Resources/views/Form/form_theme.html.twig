@@ -10,7 +10,7 @@
 
 {% block file_widget %}
     {% spaceless %}
-        {% set attr = attr|merge({'data-buttonText': 'Download'|trans({}, 'SonataAdminBundle'), 'class': (attr.class ~ ' filestyle')|trim}) %}
+        {% set attr = attr|merge({'data-buttonText': 'Download'|trans({}, 'SonataAdminBundle'), 'class': (attr.class|default('') ~ ' filestyle')|trim}) %}
         <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% endspaceless %}
 {% endblock %}
