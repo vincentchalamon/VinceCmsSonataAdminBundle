@@ -238,7 +238,7 @@ class ArticleAdmin extends PublishableAdmin
         $article = parent::getNewInstance();
         $builder = $this->repository->createQueryBuilder('m');
         $metas   = $builder->where(
-            $builder->expr()->in('m.name', array('language', 'og:type', 'twitter:card', 'author', 'publisher', 'twitter:creator'))
+            $builder->expr()->in('m.name', array('language', 'robots', 'og:type', 'twitter:card', 'twitter:creator', 'twitter:author', 'author', 'publisher'))
         )->getQuery()->execute();
         foreach ($metas as $meta) {
             /** @var ArticleMeta $articleMeta */
@@ -249,12 +249,16 @@ class ArticleAdmin extends PublishableAdmin
                 case 'language':
                     $articleMeta->setContents($this->locale);
                     break;
+                case 'robots':
+                    $articleMeta->setContents('index,follow');
+                    break;
                 case 'og:type':
                     $articleMeta->setContents('article');
                     break;
                 case 'twitter:card':
                     $articleMeta->setContents('summary');
                     break;
+                case 'twitter:creator':
                 case 'twitter:author':
                     if ($this->user && $this->user->getTwitterName()) {
                         $articleMeta->setContents('@'.$this->user->getTwitterName());
@@ -318,7 +322,7 @@ class ArticleAdmin extends PublishableAdmin
                     )
                 )
             ;
-        if ($this->getSubject()->getSlug() != 'homepage') {
+        if (!$this->getSubject()->isSystem()) {
             $mapper->add('url', null, array(
                     'label' => 'article.field.customUrl',
                     'required' => false,
@@ -330,7 +334,7 @@ class ArticleAdmin extends PublishableAdmin
             );
         }
         $mapper->end();
-        if ($this->getSubject()->getSlug() != 'homepage') {
+        if (!$this->getSubject()->isSystem()) {
             parent::configureFormFields($mapper);
         }
         $mapper
