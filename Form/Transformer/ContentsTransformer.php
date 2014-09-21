@@ -100,8 +100,7 @@ class ContentsTransformer implements DataTransformerInterface
             $template = $this->repository->createQueryBuilder('t')
                              ->innerJoin('t.areas', 'area')->addSelect('area')
                              ->where('t.slug = :slug')->setParameter('slug', $template)
-                             ->setMaxResults(1)
-                             ->getQuery()->getOneOrNullResult();
+                             ->getQuery()->setMaxResults(1)->getOneOrNullResult();
             if ($template) {
                 foreach ($contents as $name => $content) {
                     if ($area = $template->getArea($name)) {
