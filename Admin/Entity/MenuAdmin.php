@@ -175,10 +175,6 @@ class MenuAdmin extends PublishableAdmin
                     'label' => 'menu.field.title'
                 )
             )
-            ->add('route', 'url', array(
-                    'label' => 'menu.field.url'
-                )
-            )
         ;
         parent::configureListFields($mapper);
     }
@@ -236,14 +232,19 @@ class MenuAdmin extends PublishableAdmin
                 ->with('menu.group.url', array('class' => 'col-md-6'))
                     ->add('url', null, array(
                             'label' => 'menu.field.url',
-                            'help' => 'menu.help.url',
                             'required' => false
                         )
                     )
                     ->add('article', null, array(
                             'label' => 'menu.field.article',
                             'help' => 'menu.help.article',
-                            'required' => false
+                            'required' => false,
+                            'query_builder' => function (EntityRepository $entityRepository) {
+                                return $entityRepository->createQueryBuilder('a')
+                                                        ->andWhere('SUBSTRING(a.slug, 1, 5) != :error')
+                                                        ->setParameters(array('error' => 'error'))
+                                                        ->orderBy('a.title', 'ASC');
+                            }
                         )
                     )
                     ->add('target', 'choice', array(

@@ -37,15 +37,13 @@ class PublishableController extends CRUDController
             if ($this->isXmlHttpRequest()) {
                 return $this->renderJson(array('result' => 'error'));
             }
-            $this->addFlash(
-                'sonata_flash_error',
-                $this->admin->trans(
-                    'flash.error.locked',
-                    array('%name%' => $this->admin->toString($object)),
-                    'SonataAdminBundle'
+            $this->addFlash('sonata_flash_error', $this->admin->trans('flash.error.locked', array(
+                        '%name%' => $this->admin->toString($object)
+                    ), 'SonataAdminBundle'
                 )
             );
         }
+
         return parent::deleteAction($id);
     }
 
