@@ -3,7 +3,7 @@
 {% block field %}
     {% spaceless %}
         {% if object.parent and object.parent.children[object.parent.children|length - 1].id != object.id %}
-            <a href="{{ path('admin_my_cms_menu_down', {'id': object.id}) }}">
+            <a href="{{ admin.generateUrl('down', {'id': object.id}) }}">
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
         {% endif %}
