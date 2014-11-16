@@ -30,10 +30,10 @@ class AreaType extends AbstractType
     {
         foreach ($options['areas'] as $area) {
             /** @var Area $area */
-            $fieldOptions = array(
-                'label'    => $area->getTitle(),
+            $fieldOptions = array_merge(array(
+                'label' => $area->getTitle(),
                 'required' => $area->isRequired()
-            );
+            ), $area->getOptions());
             if ($area->getType() == 'document') {
                 $fieldOptions['string'] = true;
             }
