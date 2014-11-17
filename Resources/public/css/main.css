@@ -20,3 +20,16 @@ form .row .col-md-12 .col-md-12:last-of-type .box-body {
 .bootstrap-filestyle .group-span-filestyle .glyphicon-folder-open {
     margin-right: 5px;
 }
+@font-face {
+    font-family: 'FontAwesomeNew';
+    src: url('../fonts/fontawesome-webfont.eot?v=4.2.0');
+    src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.fa-language {
+    font: normal normal normal 14px/1 FontAwesomeNew;
+}
+.fa-language:before {
+    content: "\f1ab";
+}

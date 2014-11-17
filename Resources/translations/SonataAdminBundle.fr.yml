@@ -4,10 +4,17 @@ Delete: Supprimer
 cms: CMS
 Publish: Publier
 Unpublish: Dépublier
+Translate: Traduire
+language:
+    fr: Français
+    en: Anglais
 action:
+    translate: Traduire en %language%
     publish: Publier
     unpublish: Dépublier
+title_translate: Traduire "%name%" en %language%
 field:
+    language: Langue
     publication: Publication
     startedAt: Début de publication
     endedAt: Fin de publication

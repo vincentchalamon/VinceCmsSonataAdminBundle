@@ -1,0 +1,52 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block title %}
+    {% if app.request.get('_route') == admin.baseRouteName ~ '_translate' %}
+        {{ 'title_translate'|trans({'%name%': admin.toString(object)|truncate(15), '%language%': ('language.' ~ app.request.get('language'))|trans({}, 'SonataAdminBundle')}, 'SonataAdminBundle') }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock%}
+
+{% block sonata_page_content_nav %}
+    {% if _tab_menu is not empty or _actions is not empty %}
+        <nav class="navbar navbar-default" role="navigation">
+            {{ block('tab_menu_navbar_header') }}
+            <div class="container-fluid">
+                <div class="navbar-left">
+                    {% if _tab_menu is not empty %}
+                        {{ _tab_menu|raw }}
+                    {% endif %}
+                </div>
+                {% if _actions|replace({ '<li>': '', '</li>': '' })|trim is not empty %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown sonata-actions">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'link_actions'|trans({}, 'SonataAdminBundle') }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {{ _actions|raw }}
+                            </ul>
+                        </li>
+                        {% if admin.id(object) is not null and vince.cms.languages|length > 1 %}
+                            <li class="dropdown sonata-translatable-actions">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'Translate'|trans({}, 'SonataAdminBundle') }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    {% for language in vince.cms.languages if language != object.language %}
+                                        <li>
+                                            <a class="sonata-action-element" href="{{ admin.generateObjectUrl('translate', object, {'language': language}) }}">
+                                                <i class="fa fa-language"></i>
+                                                {{ 'action.translate'|trans({'%language%': ('language.' ~ language)|trans({}, 'SonataAdminBundle')}, 'SonataAdminBundle') }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+    {% endif %}
+{% endblock sonata_page_content_nav %}
+
+{% use 'VinceCmsSonataAdminBundle:CRUD:base_translatable_form.html.twig' with form as parentForm %}
+{% import 'SonataAdminBundle:CRUD:base_edit_form_macro.html.twig' as form_helper %}

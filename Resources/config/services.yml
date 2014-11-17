@@ -14,6 +14,7 @@ services:
               label: Articles
         arguments: [ ~, %vince.class.article%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
+            - [ setLanguages, [ %vince.cms.languages% ] ]
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMetaRepository, [ @vince.repository.meta ] ]
             - [ setLocale, [ @form.type_extension.locale_listener ] ]
