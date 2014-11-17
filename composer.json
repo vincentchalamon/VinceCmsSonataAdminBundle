@@ -16,8 +16,8 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "vince/cms-bundle": "~1.0",
-        "vince/type-bundle": "~1.0,>=1.0.1"
+        "vince/cms-bundle": "dev-i18n",
+        "vince/type-bundle": "@stable"
     },
     "minimum-stability": "stable",
     "target-dir": "Vince/Bundle/CmsSonataAdminBundle"
