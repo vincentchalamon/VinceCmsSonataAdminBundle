@@ -19,6 +19,5 @@
         "vince/cms-bundle": "dev-i18n",
         "vince/type-bundle": "@stable"
     },
-    "minimum-stability": "stable",
     "target-dir": "Vince/Bundle/CmsSonataAdminBundle"
 }
