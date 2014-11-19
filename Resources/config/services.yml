@@ -33,6 +33,7 @@ services:
               label: Blocs
         arguments: [ ~, %vince.class.block%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
+            - [ setLanguages, [ %vince.cms.languages% ] ]
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
     vince.admin.menu:
@@ -45,6 +46,7 @@ services:
               label: Menus
         arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:MenuAdmin ]
         calls:
+            - [ setLanguages, [ %vince.cms.languages% ] ]
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]
             - [ setUploadDir, [ %kernel.upload_dir%, %kernel.web_dir% ] ]

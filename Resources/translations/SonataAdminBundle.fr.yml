@@ -8,6 +8,10 @@ Translate: Traduire
 language:
     fr: Français
     en: Anglais
+    de: Allemand
+    it: Italien
+    es: Espagnol
+    ru: Russe
 action:
     translate: Traduire en %language%
     publish: Publier
@@ -15,6 +19,7 @@ action:
 title_translate: Traduire "%name%" en %language%
 field:
     language: Langue
+    languages: Langues
     publication: Publication
     startedAt: Début de publication
     endedAt: Fin de publication

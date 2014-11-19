@@ -49,7 +49,9 @@ class PublishableAdmin extends TranslatableAdmin
                 'label' => 'field.publication',
                 'catalogue' => 'VinceCms'
             )
-        )->add('_action', 'actions', array(
+        );
+        parent::configureListFields($mapper);
+        $mapper->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
                     'delete' => array('template' => 'VinceCmsSonataAdminBundle:CRUD:list__action_delete.html.twig')

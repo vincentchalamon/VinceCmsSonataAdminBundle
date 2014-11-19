@@ -12,6 +12,7 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
 /**
@@ -97,6 +98,18 @@ class TranslatableAdmin extends Admin
         $mapper->add('language', 'doctrine_orm_choice', array(
                 'label' => 'field.language'
             ), 'choice', array('choices' => $languages)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureListFields(ListMapper $mapper)
+    {
+        parent::configureListFields($mapper);
+        $mapper->add('languages', 'languages', array(
+                'label' => 'field.languages'
+            )
         );
     }
 }

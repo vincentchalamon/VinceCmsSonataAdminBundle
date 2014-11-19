@@ -61,6 +61,7 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
                                 'array'           => 'VinceCmsSonataAdminBundle:List:array.html.twig',
                                 'url'             => 'VinceCmsSonataAdminBundle:List:url.html.twig',
                                 'html'            => 'VinceCmsSonataAdminBundle:List:html.html.twig',
+                                'languages'       => 'VinceCmsSonataAdminBundle:List:languages.html.twig',
                                 'field_tree_up'   => 'VinceCmsSonataAdminBundle:List:field_tree_up.html.twig',
                                 'field_tree_down' => 'VinceCmsSonataAdminBundle:List:field_tree_down.html.twig'
                             ),

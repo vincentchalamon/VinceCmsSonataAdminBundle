@@ -32,7 +32,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     {% for language in vince.cms.languages if language != object.language %}
                                         <li>
-                                            <a class="sonata-action-element" href="{{ admin.generateObjectUrl('translate', object, {'language': language}) }}">
+                                            <a class="sonata-action-element" href="{{ admin.generateObjectUrl('translate', object.original, {'language': language}) }}">
                                                 <i class="fa fa-language"></i>
                                                 {{ 'action.translate'|trans({'%language%': ('language.' ~ language)|trans({}, 'SonataAdminBundle')}, 'SonataAdminBundle') }}
                                             </a>
