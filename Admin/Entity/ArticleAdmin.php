@@ -12,6 +12,7 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -20,7 +21,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Vince\Bundle\CmsBundle\Entity\Article;
 use Vince\Bundle\CmsBundle\Entity\Content;
 use Vince\Bundle\CmsBundle\Entity\Meta;
-use Vince\Bundle\TypeBundle\Listener\LocaleListener;
 use Sonata\UserBundle\Entity\BaseUser;
 
 /**
@@ -28,7 +28,7 @@ use Sonata\UserBundle\Entity\BaseUser;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class ArticleAdmin extends PublishableAdmin
+class ArticleAdmin extends TranslatableAdmin
 {
 
     /**
@@ -53,25 +53,11 @@ class ArticleAdmin extends PublishableAdmin
     protected $repository;
 
     /**
-     * Locale
-     *
-     * @var string
-     */
-    protected $locale;
-
-    /**
      * User
      *
      * @var BaseUser
      */
     protected $user;
-
-    /**
-     * Object manager
-     *
-     * @var ObjectManager
-     */
-    protected $em;
 
     /**
      * Cache dir
@@ -97,30 +83,6 @@ class ArticleAdmin extends PublishableAdmin
     public function setMetaRepository(EntityRepository $repository)
     {
         $this->repository = $repository;
-    }
-
-    /**
-     * Set ObjectManager
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param ObjectManager $em
-     */
-    public function setObjectManager(ObjectManager $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * Set locale
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     *
-     * @param LocaleListener $listener
-     */
-    public function setLocale(LocaleListener $listener)
-    {
-        $this->locale = $listener->getLocale();
     }
 
     /**
@@ -157,6 +119,18 @@ class ArticleAdmin extends PublishableAdmin
     public function setArticleMetaClass($articleMetaClass)
     {
         $this->articleMetaClass = $articleMetaClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplate($name)
+    {
+        if ($name == 'edit') {
+            return 'VinceCmsSonataAdminBundle:CRUD:Article/base_edit.html.twig';
+        }
+
+        return parent::getTemplate($name);
     }
 
     /**
@@ -216,7 +190,9 @@ class ArticleAdmin extends PublishableAdmin
         $query->leftJoin($query->getRootAlias().'.template', 'template')->addSelect('template')
               ->leftJoin('template.areas', 'area')->addSelect('area')
               ->leftJoin($query->getRootAlias().'.metas', 'articleMeta')->addSelect('articleMeta')
-              ->leftJoin('articleMeta.meta', 'meta')->addSelect('meta');
+              ->leftJoin('articleMeta.meta', 'meta')->addSelect('meta')
+              ->andWhere($query->getRootAlias().'.locale = :locale')
+              ->setParameter('locale', $this->defaultLocale);
 
         return $query;
     }
@@ -236,6 +212,7 @@ class ArticleAdmin extends PublishableAdmin
     {
         /** @var Article $article */
         $article = parent::getNewInstance();
+        $article->setLocale($this->defaultLocale);
         $builder = $this->repository->createQueryBuilder('m');
         $metas   = $builder->where(
             $builder->expr()->in('m.name', array('language', 'robots', 'og:type', 'twitter:card', 'twitter:creator', 'twitter:author', 'author', 'publisher'))
@@ -247,7 +224,7 @@ class ArticleAdmin extends PublishableAdmin
             $articleMeta->setMeta($meta);
             switch ($meta->getName()) {
                 case 'language':
-                    $articleMeta->setContents($this->locale);
+                    $articleMeta->setContents($article->getLocale());
                     break;
                 case 'robots':
                     $articleMeta->setContents('index,follow');
@@ -284,6 +261,34 @@ class ArticleAdmin extends PublishableAdmin
     }
 
     /**
+     * Check if Article object has translation
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param string  $locale
+     * @param Article $object
+     * @return bool
+     */
+    public function hasTranslation($locale, $object = null)
+    {
+        $object = $object ?: $this->getSubject();
+
+        return $object->hasTranslation($locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getObject($id)
+    {
+        $object = $this->getModelManager()->find($this->getClass(), $id);
+        foreach ($this->getExtensions() as $extension) {
+            $extension->alterObject($this, $object);
+        }
+
+        return $object;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $mapper)
@@ -293,8 +298,7 @@ class ArticleAdmin extends PublishableAdmin
                     'label' => 'article.field.title',
                     'template' => 'VinceCmsSonataAdminBundle:List:url.html.twig'
                 )
-            )
-        ;
+            );
         parent::configureListFields($mapper);
     }
 
@@ -340,7 +344,11 @@ class ArticleAdmin extends PublishableAdmin
         $mapper
             ->with('article.group.template', array('class' => 'col-md-12'))
                 ->add('template', null, array(
-                        'label' => 'article.field.template'
+                        'label' => 'article.field.template',
+                        'query_builder' => function (EntityRepository $repository) {
+                            return $repository->createQueryBuilder('template')
+                                ->orderBy('template.title', 'ASC');
+                        }
                     )
                 )
                 ->add('contents', 'template', array(

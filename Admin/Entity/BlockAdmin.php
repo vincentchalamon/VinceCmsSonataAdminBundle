@@ -10,16 +10,18 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Vince\Bundle\CmsBundle\Entity\Block;
 
 /**
- * Bock admin
+ * Block admin
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class BlockAdmin extends PublishableAdmin
+class BlockAdmin extends TranslatableAdmin
 {
 
     /**
@@ -45,6 +47,7 @@ class BlockAdmin extends PublishableAdmin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
+        parent::configureRoutes($collection);
         $collection->clearExcept(array('list', 'edit', 'batch'));
     }
 

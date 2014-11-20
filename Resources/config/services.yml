@@ -1,23 +1,39 @@
 services:
+    # Twig extension
     twig.extension.vince.cms_sonata_admin:
         class: Vince\Bundle\CmsSonataAdminBundle\Twig\Extension\CmsSonataAdminExtension
         tags:
             - { name: twig.extension }
 
+    # Admin class
+    vince.admin.publishable:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\PublishableAdmin
+        abstract: true
+        calls:
+            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
+
+    vince.admin.translatable:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\TranslatableAdmin
+        abstract: true
+        parent: vince.admin.publishable
+        calls:
+            - [ setDefaultLocale, [ %vince.cms.defaultLocale% ] ]
+            - [ setLocales, [ %vince.cms.locales% ] ]
+            - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
+            - [ setTranslationRepository, [ @gedmo.repository.translation ] ]
+
     vince.admin.article:
         class: %vince.admin.article.class%
+        parent: vince.admin.translatable
         tags:
             - name: sonata.admin
               manager_type: orm
               group: cms
               label_catalogue: SonataAdminBundle
               label: Articles
-        arguments: [ ~, %vince.class.article%, VinceCmsSonataAdminBundle:Publishable ]
+        arguments: [ ~, %vince.class.article%, VinceCmsSonataAdminBundle:Article ]
         calls:
-            - [ setLanguages, [ %vince.cms.languages% ] ]
-            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMetaRepository, [ @vince.repository.meta ] ]
-            - [ setLocale, [ @form.type_extension.locale_listener ] ]
             - [ setUser, [ @security.context ] ]
             - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
             - [ setCacheDir, [ %kernel.cache_dir% ] ]
@@ -25,15 +41,15 @@ services:
 
     vince.admin.block:
         class: %vince.admin.block.class%
+        parent: vince.admin.translatable
         tags:
             - name: sonata.admin
               manager_type: orm
               group: cms
               label_catalogue: SonataAdminBundle
               label: Blocs
-        arguments: [ ~, %vince.class.block%, VinceCmsSonataAdminBundle:Publishable ]
+        arguments: [ ~, %vince.class.block%, VinceCmsSonataAdminBundle:Translatable ]
         calls:
-            - [ setLanguages, [ %vince.cms.languages% ] ]
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
     vince.admin.menu:
@@ -44,13 +60,13 @@ services:
               group: cms
               label_catalogue: SonataAdminBundle
               label: Menus
-        arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:MenuAdmin ]
+        arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:Menu ]
         calls:
-            - [ setLanguages, [ %vince.cms.languages% ] ]
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]
             - [ setUploadDir, [ %kernel.upload_dir%, %kernel.web_dir% ] ]
 
+    # Form types
     form.type_extension.filename:
         class: Vince\Bundle\CmsSonataAdminBundle\Form\Extension\FilenameTypeExtension
         tags:

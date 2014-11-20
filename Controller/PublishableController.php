@@ -8,6 +8,7 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Controller;
 
+use Sonata\AdminBundle\Controller\CRUDController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,7 +20,7 @@ use Vince\Bundle\CmsBundle\Entity\Article;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class PublishableController extends TranslatableController
+class PublishableController extends CRUDController
 {
 
     /**

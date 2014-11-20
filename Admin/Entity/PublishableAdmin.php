@@ -13,13 +13,14 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Admin\Admin;
 
 /**
  * Publishable admin
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class PublishableAdmin extends TranslatableAdmin
+abstract class PublishableAdmin extends Admin
 {
 
     /**

@@ -5,7 +5,7 @@ cms: CMS
 Publish: Publier
 Unpublish: Dépublier
 Translate: Traduire
-language:
+locale:
     fr: Français
     en: Anglais
     de: Allemand
@@ -13,13 +13,12 @@ language:
     es: Espagnol
     ru: Russe
 action:
-    translate: Traduire en %language%
+    translate: Traduire en %locale%
     publish: Publier
     unpublish: Dépublier
-title_translate: Traduire "%name%" en %language%
+title_translate: Traduire "%name%" en %locale%
 field:
-    language: Langue
-    languages: Langues
+    locales: Langues
     publication: Publication
     startedAt: Début de publication
     endedAt: Fin de publication

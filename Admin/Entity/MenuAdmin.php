@@ -200,6 +200,7 @@ class MenuAdmin extends PublishableAdmin
                         'label' => 'menu.field.parent',
                         'property' => 'adminListTitle',
                         'query_builder' => function (EntityRepository $entityRepository) use ($id) {
+                            // todo-vince Filter language
                             $builder = $entityRepository->createQueryBuilder('p')->orderBy('p.root, p.lft', 'ASC');
                             if ($id) {
                                 $builder->andWhere('p.id != :id')->setParameter('id', $id);
@@ -240,6 +241,7 @@ class MenuAdmin extends PublishableAdmin
                             'help' => 'menu.help.article',
                             'required' => false,
                             'query_builder' => function (EntityRepository $entityRepository) {
+                                // todo-vince Filter language
                                 return $entityRepository->createQueryBuilder('a')
                                                         ->andWhere('SUBSTRING(a.slug, 1, 5) != :error')
                                                         ->setParameters(array('error' => 'error'))

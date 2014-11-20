@@ -10,8 +10,8 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Doctrine\ORM\EntityManager;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
@@ -20,33 +20,104 @@ use Sonata\AdminBundle\Route\RouteCollection;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class TranslatableAdmin extends Admin
+abstract class TranslatableAdmin extends PublishableAdmin
 {
 
     /**
-     * Available languages
+     * Available locales
      *
      * @var array
      */
-    protected $languages;
+    protected $locales;
 
     /**
-     * Set available languages
+     * Default locale
+     *
+     * @var string
+     */
+    protected $defaultLocale;
+
+    /**
+     * Translation repository
+     *
+     * @var TranslationRepository
+     */
+    protected $translationRepository;
+
+    /**
+     * Entity manager
+     *
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * Set available locales
      *
      * @author Vincent Chalamon <vincent@ylly.fr>
-     * @param array $languages
+     * @param array $locale
      */
-    public function setLanguages(array $languages)
+    public function setLocales(array $locale)
     {
-        $this->languages = $languages;
+        $this->locales = $locale;
+    }
+
+    /**
+     * Set default locale
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param string $defaultLocale
+     */
+    public function setDefaultLocale($defaultLocale)
+    {
+        $this->defaultLocale = $defaultLocale;
+    }
+
+    /**
+     * Set translation repository
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param TranslationRepository $repository
+     */
+    public function setTranslationRepository(TranslationRepository $repository)
+    {
+        $this->translationRepository = $repository;
+    }
+
+    /**
+     * Set object manager
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param EntityManager $em
+     */
+    public function setObjectManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * Check if Block object has translation
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param string $locale
+     * @param object $object
+     * @return bool
+     */
+    public function hasTranslation($locale, $object = null)
+    {
+        return array_key_exists($locale, $this->translationRepository->findTranslations($object ?: $this->getSubject()));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollection $collection)
+    public function getObject($id)
     {
-        $collection->add('translate', $this->getRouterIdParameter().'/translate/{language}');
+        $object = parent::getObject($id);
+        $object->setLocale($this->defaultLocale);
+        $this->em->refresh($object);
+
+        return $object;
     }
 
     /**
@@ -62,43 +133,16 @@ class TranslatableAdmin extends Admin
     }
 
     /**
-     * {@inheritdoc}
+     * Configure routes
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     *
+     * @param RouteCollection $collection
      */
-    public function getNewInstance()
+    protected function configureRoutes(RouteCollection $collection)
     {
-        $object = parent::getNewInstance();
-        $object->setLanguage($this->languages[0]);
-
-        return $object;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilterParameters()
-    {
-        $parameters = parent::getFilterParameters();
-        if (!isset($parameters['language']['value']) || !trim($parameters['language']['value'])) {
-            $parameters['language'] = array('type' => '', 'value' => $this->languages[0]);
-        }
-
-        return $parameters;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureDatagridFilters(DatagridMapper $mapper)
-    {
-        parent::configureDatagridFilters($mapper);
-        $languages = array();
-        foreach ($this->languages as $language) {
-            $languages[$language] = $this->trans(sprintf('language.%s', $language), array(), 'SonataAdminBundle');
-        }
-        $mapper->add('language', 'doctrine_orm_choice', array(
-                'label' => 'field.language'
-            ), 'choice', array('choices' => $languages)
-        );
+        $collection->get('edit')->setPath($this->getBaseRoutePattern().'/'.$this->getRouterIdParameter().'/edit/{locale}')
+                   ->setDefault('locale', $this->defaultLocale);
     }
 
     /**
@@ -106,10 +150,10 @@ class TranslatableAdmin extends Admin
      */
     protected function configureListFields(ListMapper $mapper)
     {
-        parent::configureListFields($mapper);
-        $mapper->add('languages', 'languages', array(
-                'label' => 'field.languages'
+        $mapper->add('locales', 'locales', array(
+                'label' => 'field.locales'
             )
         );
+        parent::configureListFields($mapper);
     }
 }
