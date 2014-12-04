@@ -117,8 +117,8 @@ abstract class TranslatableAdmin extends PublishableAdmin
      * Check if Block object has translation
      *
      * @author Vincent Chalamon <vincent@ylly.fr>
-     * @param string $locale
-     * @param object $object
+     * @param  string $locale
+     * @param  object $object
      * @return bool
      */
     public function hasTranslation($locale, $object = null)

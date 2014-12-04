@@ -10,9 +10,7 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -264,8 +262,8 @@ class ArticleAdmin extends TranslatableAdmin
      * Check if Article object has translation
      *
      * @author Vincent Chalamon <vincent@ylly.fr>
-     * @param string  $locale
-     * @param Article $object
+     * @param  string  $locale
+     * @param  Article $object
      * @return bool
      */
     public function hasTranslation($locale, $object = null)

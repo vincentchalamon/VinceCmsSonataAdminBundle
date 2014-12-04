@@ -10,7 +10,6 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;

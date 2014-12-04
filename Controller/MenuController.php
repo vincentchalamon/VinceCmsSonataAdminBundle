@@ -35,7 +35,7 @@ class MenuController extends TranslatableController
         $repo = $this->get('vince.repository.menu');
         /** @var Menu $menu */
         $menu = $repo->find($request->get('id'));
-        if ($menu->getParent()){
+        if ($menu->getParent()) {
             $repo->moveUp($menu);
         }
 
@@ -57,7 +57,7 @@ class MenuController extends TranslatableController
         $repo = $this->get('vince.repository.menu');
         /** @var Menu $menu */
         $menu = $repo->find($request->get('id'));
-        if ($menu->getParent()){
+        if ($menu->getParent()) {
             $repo->moveDown($menu);
         }
 

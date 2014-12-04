@@ -8,10 +8,6 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Controller;
 
-use Sonata\AdminBundle\Exception\ModelManagerException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 /**
  * Manage translatable entities in Admin
  *

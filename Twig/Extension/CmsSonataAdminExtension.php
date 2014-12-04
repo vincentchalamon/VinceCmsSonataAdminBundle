@@ -10,10 +10,6 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Twig\Extension;
 
-use Doctrine\Common\Util\Inflector;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-
 /**
  * Twig extension for CMS admin
  *
@@ -37,7 +33,7 @@ class CmsSonataAdminExtension extends \Twig_Extension
      *
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
      *
-     * @param string  $value Value
+     * @param string $value Value
      *
      * @return string
      */
