@@ -54,6 +54,7 @@ services:
 
     vince.admin.menu:
         class: %vince.admin.menu.class%
+        parent: vince.admin.translatable
         tags:
             - name: sonata.admin
               manager_type: orm
@@ -62,7 +63,6 @@ services:
               label: Menus
         arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:Menu ]
         calls:
-            - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
             - [ setMenuRepository, [ @vince.repository.menu ] ]
             - [ setUploadDir, [ %kernel.upload_dir%, %kernel.web_dir% ] ]
 

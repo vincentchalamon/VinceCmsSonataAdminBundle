@@ -25,7 +25,7 @@ class TranslatableController extends PublishableController
      */
     public function editAction($id = null)
     {
-        $this->admin->setDefaultLocale($this->get('request')->get('locale'));
+        $this->admin->setLocale($this->get('request')->get('locale'));
 
         return parent::editAction($id);
     }
@@ -35,7 +35,7 @@ class TranslatableController extends PublishableController
      */
     public function deleteAction($id)
     {
-        $this->admin->setDefaultLocale($this->get('request')->get('locale'));
+        $this->admin->setLocale($this->get('request')->get('locale'));
 
         return parent::deleteAction($id);
     }

@@ -36,39 +36,3 @@ form .row .col-md-12 .col-md-12:last-of-type .box-body {
 .fa-language:before {
     content: "\f1ab";
 }
-.flag {
-    background: url('../img/flags.png') no-repeat;
-    display: inline-block;
-    background-size: 150px 115px;
-    width: 23px;
-    height: 16px;
-}
-.translatable {
-    display: inline-block;
-    width: 23px;
-    height: 16px;
-    line-height: 30px;
-    margin-right: 5px;
-    opacity: 0.3;
-}
-.translatable:hover, .translatable.active {
-    opacity: 1;
-}
-.flag-fr {
-    background-position: -7px -62px;
-}
-.flag-en {
-    background-position: -44px -7px;
-}
-.flag-de {
-    background-position: -82px -7px;
-}
-.flag-it {
-    background-position: -119px -7px;
-}
-.flag-es {
-    background-position: -119px -62px;
-}
-.flag-ru {
-    background-position: -7px -34px;
-}

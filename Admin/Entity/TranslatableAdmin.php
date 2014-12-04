@@ -38,6 +38,13 @@ abstract class TranslatableAdmin extends PublishableAdmin
     protected $defaultLocale;
 
     /**
+     * Current locale
+     *
+     * @var string
+     */
+    protected $locale;
+
+    /**
      * Translation repository
      *
      * @var TranslationRepository
@@ -71,6 +78,17 @@ abstract class TranslatableAdmin extends PublishableAdmin
     public function setDefaultLocale($defaultLocale)
     {
         $this->defaultLocale = $defaultLocale;
+    }
+
+    /**
+     * Set locale
+     *
+     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     /**
@@ -114,7 +132,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     public function getObject($id)
     {
         $object = parent::getObject($id);
-        $object->setLocale($this->defaultLocale);
+        $object->setLocale($this->locale);
         $this->em->refresh($object);
 
         return $object;

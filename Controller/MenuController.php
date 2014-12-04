@@ -17,7 +17,7 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class MenuController extends PublishableController
+class MenuController extends TranslatableController
 {
 
     /**

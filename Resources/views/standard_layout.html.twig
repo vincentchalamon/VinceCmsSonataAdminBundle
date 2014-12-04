@@ -2,7 +2,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('bundles/vincecmssonataadmin/css/main.css') }}" type="text/css" rel="stylesheet" />
+    {% stylesheets  'bundles/vincecmssonataadmin/css/main.css'
+                    'bundles/vincecms/css/locales.css'
+                    filter='?yui_css,cssrewrite' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
     {% if form is defined %}
         {{ form_stylesheets(form) }}
     {% endif %}

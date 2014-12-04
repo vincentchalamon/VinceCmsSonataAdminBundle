@@ -5,13 +5,6 @@ cms: CMS
 Publish: Publier
 Unpublish: Dépublier
 Translate: Traduire
-locale:
-    fr: Français
-    en: Anglais
-    de: Allemand
-    it: Italien
-    es: Espagnol
-    ru: Russe
 action:
     translate: Traduire en %locale%
     publish: Publier

@@ -31,7 +31,7 @@
                                         <li>
                                             <a class="sonata-action-element" href="{{ admin.generateObjectUrl('edit', object, {'locale': locale}) }}">
                                                 <i class="fa fa-language"></i>
-                                                {{ 'action.translate'|trans({'%locale%': ('locale.' ~ locale)|trans({}, 'SonataAdminBundle')}, 'SonataAdminBundle') }}
+                                                {{ 'action.translate'|trans({'%locale%': ('locale.' ~ locale)|trans({}, 'VinceCms')}, 'SonataAdminBundle') }}
                                             </a>
                                         </li>
                                     {% endfor %}
@@ -44,3 +44,5 @@
         </nav>
     {% endif %}
 {% endblock sonata_page_content_nav %}
+
+{% use 'VinceCmsSonataAdminBundle:CRUD:translatable_edit_form.html.twig' with form as parentForm %}
