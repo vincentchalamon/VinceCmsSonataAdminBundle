@@ -61,7 +61,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Set available locales
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param array $locale
      */
     public function setLocales(array $locale)
@@ -72,7 +72,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Set default locale
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param string $defaultLocale
      */
     public function setDefaultLocale($defaultLocale)
@@ -83,7 +83,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Set locale
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param string $locale
      */
     public function setLocale($locale)
@@ -94,7 +94,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Set translation repository
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param TranslationRepository $repository
      */
     public function setTranslationRepository(TranslationRepository $repository)
@@ -105,7 +105,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Set object manager
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param EntityManager $em
      */
     public function setObjectManager(EntityManager $em)
@@ -116,7 +116,7 @@ abstract class TranslatableAdmin extends PublishableAdmin
     /**
      * Check if Block object has translation
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param  string $locale
      * @param  object $object
      * @return bool

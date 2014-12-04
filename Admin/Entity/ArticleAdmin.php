@@ -261,7 +261,7 @@ class ArticleAdmin extends TranslatableAdmin
     /**
      * Check if Article object has translation
      *
-     * @author Vincent Chalamon <vincent@ylly.fr>
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
      * @param  string  $locale
      * @param  Article $object
      * @return bool
