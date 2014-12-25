@@ -10,6 +10,7 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -26,7 +27,7 @@ use Sonata\UserBundle\Entity\BaseUser;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class ArticleAdmin extends TranslatableAdmin
+class ArticleAdmin extends PublishableAdmin
 {
 
     /**
@@ -70,6 +71,24 @@ class ArticleAdmin extends TranslatableAdmin
      * @var string
      */
     protected $articleMetaClass;
+
+    /**
+     * Entity manager
+     *
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * Set object manager
+     *
+     * @author Vincent Chalamon <vincentchalamon@gmail.com>
+     * @param EntityManager $em
+     */
+    public function setObjectManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * Set Meta repository
@@ -117,18 +136,6 @@ class ArticleAdmin extends TranslatableAdmin
     public function setArticleMetaClass($articleMetaClass)
     {
         $this->articleMetaClass = $articleMetaClass;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTemplate($name)
-    {
-        if ($name == 'edit') {
-            return 'VinceCmsSonataAdminBundle:CRUD:Article/base_edit.html.twig';
-        }
-
-        return parent::getTemplate($name);
     }
 
     /**
@@ -188,9 +195,7 @@ class ArticleAdmin extends TranslatableAdmin
         $query->leftJoin($query->getRootAlias().'.template', 'template')->addSelect('template')
               ->leftJoin('template.areas', 'area')->addSelect('area')
               ->leftJoin($query->getRootAlias().'.metas', 'articleMeta')->addSelect('articleMeta')
-              ->leftJoin('articleMeta.meta', 'meta')->addSelect('meta')
-              ->andWhere($query->getRootAlias().'.locale = :locale')
-              ->setParameter('locale', $this->defaultLocale);
+              ->leftJoin('articleMeta.meta', 'meta')->addSelect('meta');
 
         return $query;
     }
@@ -210,7 +215,6 @@ class ArticleAdmin extends TranslatableAdmin
     {
         /** @var Article $article */
         $article = parent::getNewInstance();
-        $article->setLocale($this->defaultLocale);
         $builder = $this->repository->createQueryBuilder('m');
         $metas   = $builder->where(
             $builder->expr()->in('m.name', array('language', 'robots', 'og:type', 'twitter:card', 'twitter:creator', 'twitter:author', 'author', 'publisher'))
@@ -221,9 +225,6 @@ class ArticleAdmin extends TranslatableAdmin
             /** @var Meta $meta */
             $articleMeta->setMeta($meta);
             switch ($meta->getName()) {
-                case 'language':
-                    $articleMeta->setContents($article->getLocale());
-                    break;
                 case 'robots':
                     $articleMeta->setContents('index,follow');
                     break;
@@ -256,34 +257,6 @@ class ArticleAdmin extends TranslatableAdmin
         }
 
         return $article;
-    }
-
-    /**
-     * Check if Article object has translation
-     *
-     * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     * @param  string  $locale
-     * @param  Article $object
-     * @return bool
-     */
-    public function hasTranslation($locale, $object = null)
-    {
-        $object = $object ?: $this->getSubject();
-
-        return $object->hasTranslation($locale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getObject($id)
-    {
-        $object = $this->getModelManager()->find($this->getClass(), $id);
-        foreach ($this->getExtensions() as $extension) {
-            $extension->alterObject($this, $object);
-        }
-
-        return $object;
     }
 
     /**

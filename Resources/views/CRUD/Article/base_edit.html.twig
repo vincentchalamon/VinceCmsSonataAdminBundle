@@ -1,9 +1,0 @@
-{% extends 'VinceCmsSonataAdminBundle:CRUD:translatable_edit.html.twig' %}
-
-{% block title %}
-    {% if admin.id(object) is not null or admin.id(object.original) is not null %}
-        {{ 'title_edit'|trans({'%name%': admin.toString(object)|truncate(15)}, 'SonataAdminBundle') }}
-    {% else %}
-        {{ parent() }}
-    {% endif %}
-{% endblock %}

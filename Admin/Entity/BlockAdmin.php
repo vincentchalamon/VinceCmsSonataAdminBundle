@@ -13,14 +13,13 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Vince\Bundle\CmsBundle\Entity\Block;
 
 /**
  * Block admin
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class BlockAdmin extends TranslatableAdmin
+class BlockAdmin extends PublishableAdmin
 {
 
     /**

@@ -22,7 +22,7 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class MenuAdmin extends TranslatableAdmin
+class MenuAdmin extends PublishableAdmin
 {
 
     /**
@@ -124,24 +124,6 @@ class MenuAdmin extends TranslatableAdmin
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getBatchActions()
-    {
-        return array_merge(parent::getBatchActions(), array(
-                'publish' => array(
-                    'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                ),
-                'unpublish' => array(
-                    'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                )
-            )
-        );
-    }
-
-    /**
      * Need to override createQuery method because of list order & joins
      *
      * {@inheritdoc}
@@ -228,7 +210,6 @@ class MenuAdmin extends TranslatableAdmin
             ->end();
         parent::configureFormFields($mapper);
         if (!$id || $this->getSubject()->getParent()) {
-            $defaultLocale = $this->defaultLocale;
             $mapper
                 ->with('menu.group.url', array('class' => 'col-md-6'))
                     ->add('url', null, array(
@@ -240,15 +221,10 @@ class MenuAdmin extends TranslatableAdmin
                             'label' => 'menu.field.article',
                             'help' => 'menu.help.article',
                             'required' => false,
-                            'query_builder' => function (EntityRepository $entityRepository) use ($defaultLocale) {
+                            'query_builder' => function (EntityRepository $entityRepository) {
                                 return $entityRepository->createQueryBuilder('a')
                                                         ->andWhere('SUBSTRING(a.slug, 1, 5) != :error')
-                                                        ->andWhere('a.locale = :locale')
-                                                        ->setParameters(array(
-                                                                'error'  => 'error',
-                                                                'locale' => $defaultLocale
-                                                            )
-                                                        )
+                                                        ->setParameter('error', 'error')
                                                         ->orderBy('a.title', 'ASC');
                             }
                         )

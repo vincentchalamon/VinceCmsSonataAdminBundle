@@ -1,69 +1,59 @@
 services:
     # Twig extension
-    twig.extension.vince.cms_sonata_admin:
+    vince_cms.admin.twig.extension:
         class: Vince\Bundle\CmsSonataAdminBundle\Twig\Extension\CmsSonataAdminExtension
         tags:
             - { name: twig.extension }
 
     # Admin class
-    vince.admin.publishable:
-        class: Vince\Bundle\CmsSonataAdminBundle\Admin\PublishableAdmin
+    vince_cms.admin.publishable:
+        class: Vince\Bundle\CmsSonataAdminBundle\Admin\Entity\PublishableAdmin
         abstract: true
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
-    vince.admin.translatable:
-        class: Vince\Bundle\CmsSonataAdminBundle\Admin\TranslatableAdmin
-        abstract: true
-        parent: vince.admin.publishable
-        calls:
-            - [ setDefaultLocale, [ %vince.cms.defaultLocale% ] ]
-            - [ setLocales, [ %vince.cms.locales% ] ]
-            - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
-            - [ setTranslationRepository, [ @gedmo.repository.translation ] ]
-
-    vince.admin.article:
-        class: %vince.admin.article.class%
-        parent: vince.admin.translatable
+    vince_cms.admin.article:
+        class: %vince_cms.admin.article%
+        parent: vince_cms.admin.publishable
         tags:
             - name: sonata.admin
               manager_type: orm
               group: cms
               label_catalogue: SonataAdminBundle
               label: Articles
-        arguments: [ ~, %vince.class.article%, VinceCmsSonataAdminBundle:Article ]
+        arguments: [ ~, %vince_cms.class.article%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
-            - [ setMetaRepository, [ @vince.repository.meta ] ]
+            - [ setMetaRepository, [ @vince_cms.repository.meta ] ]
             - [ setUser, [ @security.context ] ]
             - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
             - [ setCacheDir, [ %kernel.cache_dir% ] ]
-            - [ setArticleMetaClass, [ %vince.class.articlemeta% ] ]
+            - [ setArticleMetaClass, [ %vince_cms.class.articlemeta% ] ]
 
-    vince.admin.block:
-        class: %vince.admin.block.class%
-        parent: vince.admin.translatable
+    vince_cms.admin.block:
+        class: %vince_cms.admin.block%
+        parent: vince_cms.admin.publishable
         tags:
             - name: sonata.admin
               manager_type: orm
               group: cms
               label_catalogue: SonataAdminBundle
               label: Blocs
-        arguments: [ ~, %vince.class.block%, VinceCmsSonataAdminBundle:Translatable ]
+        arguments: [ ~, %vince_cms.class.block%, VinceCmsSonataAdminBundle:Publishable ]
         calls:
             - [ setTranslationDomain, [ 'SonataAdminBundle' ] ]
 
-    vince.admin.menu:
-        class: %vince.admin.menu.class%
-        parent: vince.admin.translatable
+    vince_cms.admin.menu:
+        class: %vince_cms.admin.menu%
+        parent: vince_cms.admin.publishable
         tags:
             - name: sonata.admin
               manager_type: orm
               group: cms
               label_catalogue: SonataAdminBundle
               label: Menus
-        arguments: [ ~, %vince.class.menu%, VinceCmsSonataAdminBundle:Menu ]
+        arguments: [ ~, %vince_cms.class.menu%, VinceCmsSonataAdminBundle:Menu ]
         calls:
-            - [ setMenuRepository, [ @vince.repository.menu ] ]
+            - [ setMenuRepository, [ @vince_cms.repository.menu ] ]
             - [ setUploadDir, [ %kernel.upload_dir%, %kernel.web_dir% ] ]
 
     # Form types
@@ -77,8 +67,8 @@ services:
         tags:
             - { name: form.type, alias: metagroup }
         calls:
-            - [ setMetaRepository, [ @vince.repository.meta ] ]
-            - [ setArticleMetaClassName, [ %vince.class.articleMeta% ] ]
+            - [ setMetaRepository, [ @vince_cms.repository.meta ] ]
+            - [ setArticleMetaClassName, [ %vince_cms.class.articleMeta% ] ]
 
     form.type.meta:
         class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\MetaType
@@ -90,8 +80,8 @@ services:
         tags:
             - { name: form.type, alias: template }
         calls:
-            - [ setTemplateRepository, [ @vince.repository.template ] ]
-            - [ setContentClassName, [ %vince.class.content% ] ]
+            - [ setTemplateRepository, [ @vince_cms.repository.template ] ]
+            - [ setContentClassName, [ %vince_cms.class.content% ] ]
 
     form.type.area:
         class: Vince\Bundle\CmsSonataAdminBundle\Form\Type\AreaType

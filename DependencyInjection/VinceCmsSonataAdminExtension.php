@@ -31,9 +31,9 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('vince.admin.article.class', $config['article']);
-        $container->setParameter('vince.admin.block.class', $config['block']);
-        $container->setParameter('vince.admin.menu.class', $config['menu']);
+        $container->setParameter('vince_cms.admin.article', $config['article']);
+        $container->setParameter('vince_cms.admin.block', $config['block']);
+        $container->setParameter('vince_cms.admin.menu', $config['menu']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -61,7 +61,6 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
                                 'array'           => 'VinceCmsSonataAdminBundle:List:array.html.twig',
                                 'url'             => 'VinceCmsSonataAdminBundle:List:url.html.twig',
                                 'html'            => 'VinceCmsSonataAdminBundle:List:html.html.twig',
-                                'locales'         => 'VinceCmsSonataAdminBundle:List:locales.html.twig',
                                 'field_tree_up'   => 'VinceCmsSonataAdminBundle:List:field_tree_up.html.twig',
                                 'field_tree_down' => 'VinceCmsSonataAdminBundle:List:field_tree_down.html.twig'
                             ),

@@ -27,7 +27,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_article_template_entity_javascript %}
+{% block vince_cms_admin_article_template_entity_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
@@ -58,7 +58,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_article_title_text_javascript %}
+{% block vince_cms_admin_article_title_text_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
@@ -79,7 +79,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_article_summary_textarea_javascript %}
+{% block vince_cms_admin_article_summary_textarea_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
@@ -96,7 +96,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_article_url_text_javascript %}
+{% block vince_cms_admin_article_url_text_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
@@ -115,13 +115,13 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_menu_title_text_javascript %}
+{% block vince_cms_admin_menu_title_text_javascript %}
     {% spaceless %}
-        {{ block('vince_admin_article_title_text_javascript') }}
+        {{ block('vince_cms_admin_article_title_text_javascript') }}
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_menu_image_checkbox_javascript %}
+{% block vince_cms_admin_menu_image_checkbox_javascript %}
     {% spaceless %}
         <script type="text/javascript">
             $(function () {
@@ -137,7 +137,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_menu_file_file_widget %}
+{% block vince_cms_admin_menu_file_file_widget %}
     {% spaceless %}
         {% if filename is defined and filename %}
             <a href="{{ filename }}" target="_blank">
@@ -148,7 +148,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block vince_admin_menu_parent_entity_widget %}
+{% block vince_cms_admin_menu_parent_entity_widget %}
     {% spaceless %}
         <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
             {% for group_label, choice in choices %}

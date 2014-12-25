@@ -137,16 +137,16 @@ abstract class PublishableAdmin extends Admin
     {
         $mapper
             ->with('field.publication', array('class' => 'col-md-6'))
-            ->add('startedAt', 'datepicker', array(
-                    'label' => 'field.startedAt',
-                    'required' => false
+                ->add('startedAt', 'datepicker', array(
+                        'label' => 'field.startedAt',
+                        'required' => false
+                    )
                 )
-            )
-            ->add('endedAt', 'datepicker', array(
-                    'label' => 'field.endedAt',
-                    'required' => false
+                ->add('endedAt', 'datepicker', array(
+                        'label' => 'field.endedAt',
+                        'required' => false
+                    )
                 )
-            )
             ->end();
     }
 }

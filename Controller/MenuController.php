@@ -17,7 +17,7 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  *
  * @author Vincent Chalamon <vincentchalamon@gmail.com>
  */
-class MenuController extends TranslatableController
+class MenuController extends PublishableController
 {
 
     /**
@@ -32,7 +32,7 @@ class MenuController extends TranslatableController
     public function upAction(Request $request)
     {
         /** @var MenuRepository $repo */
-        $repo = $this->get('vince.repository.menu');
+        $repo = $this->get('vince_cms.repository.menu');
         /** @var Menu $menu */
         $menu = $repo->find($request->get('id'));
         if ($menu->getParent()) {
@@ -54,7 +54,7 @@ class MenuController extends TranslatableController
     public function downAction(Request $request)
     {
         /** @var MenuRepository $repo */
-        $repo = $this->get('vince.repository.menu');
+        $repo = $this->get('vince_cms.repository.menu');
         /** @var Menu $menu */
         $menu = $repo->find($request->get('id'));
         if ($menu->getParent()) {
