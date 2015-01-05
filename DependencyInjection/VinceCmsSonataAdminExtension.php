@@ -62,16 +62,16 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
                                 'url'             => 'VinceCmsSonataAdminBundle:List:url.html.twig',
                                 'html'            => 'VinceCmsSonataAdminBundle:List:html.html.twig',
                                 'field_tree_up'   => 'VinceCmsSonataAdminBundle:List:field_tree_up.html.twig',
-                                'field_tree_down' => 'VinceCmsSonataAdminBundle:List:field_tree_down.html.twig'
+                                'field_tree_down' => 'VinceCmsSonataAdminBundle:List:field_tree_down.html.twig',
                             ),
                             'show' => array(
                                 'localizeddate'   => 'VinceCmsSonataAdminBundle:Show:localizeddate.html.twig',
                                 'array'           => 'VinceCmsSonataAdminBundle:Show:array.html.twig',
                                 'url'             => 'VinceCmsSonataAdminBundle:Show:url.html.twig',
-                                'html'            => 'VinceCmsSonataAdminBundle:Show:html.html.twig'
-                            )
-                        )
-                    )
+                                'html'            => 'VinceCmsSonataAdminBundle:Show:html.html.twig',
+                            ),
+                        ),
+                    ),
                 )
             );
         }
@@ -82,8 +82,8 @@ class VinceCmsSonataAdminExtension extends Extension implements PrependExtension
                     'templates' => array(
                         'layout' => 'VinceCmsSonataAdminBundle::standard_layout.html.twig',
                         'batch'  => 'VinceCmsSonataAdminBundle:CRUD:list__batch.html.twig',
-                        'user_block' => 'VinceCmsSonataAdminBundle:Core:user_block.html.twig'
-                    )
+                        'user_block' => 'VinceCmsSonataAdminBundle:Core:user_block.html.twig',
+                    ),
                 )
             );
         }

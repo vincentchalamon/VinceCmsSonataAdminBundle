@@ -19,7 +19,6 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  */
 class MenuController extends PublishableController
 {
-
     /**
      * Move menu up
      *

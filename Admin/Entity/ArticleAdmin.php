@@ -10,6 +10,7 @@
  */
 namespace Vince\Bundle\CmsSonataAdminBundle\Admin\Entity;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Vince\Bundle\CmsBundle\Entity\ArticleMeta;
@@ -29,7 +30,6 @@ use Sonata\UserBundle\Entity\BaseUser;
  */
 class ArticleAdmin extends PublishableAdmin
 {
-
     /**
      * {@inheritdoc}
      */
@@ -41,7 +41,7 @@ class ArticleAdmin extends PublishableAdmin
     protected $datagridValues = array(
         '_page'       => 1,
         '_sort_order' => 'ASC',
-        '_sort_by'    => 'title'
+        '_sort_by'    => 'title',
     );
 
     /**
@@ -80,14 +80,14 @@ class ArticleAdmin extends PublishableAdmin
     protected $em;
 
     /**
-     * Set object manager
+     * Set doctrine
      *
      * @author Vincent Chalamon <vincentchalamon@gmail.com>
-     * @param EntityManager $em
+     * @param Registry $doctrine
      */
-    public function setObjectManager(EntityManager $em)
+    public function setDoctrine(Registry $doctrine)
     {
-        $this->em = $em;
+        $this->em = $doctrine->getManager();
     }
 
     /**
@@ -174,12 +174,12 @@ class ArticleAdmin extends PublishableAdmin
         return array_merge(parent::getBatchActions(), array(
                 'publish' => array(
                     'label'            => $this->trans('action.publish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
+                    'ask_confirmation' => true,
                 ),
                 'unpublish' => array(
                     'label'            => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                )
+                    'ask_confirmation' => true,
+                ),
             )
         );
     }
@@ -267,7 +267,7 @@ class ArticleAdmin extends PublishableAdmin
         $mapper
             ->addIdentifier('title', null, array(
                     'label' => 'article.field.title',
-                    'template' => 'VinceCmsSonataAdminBundle:List:url.html.twig'
+                    'template' => 'VinceCmsSonataAdminBundle:List:url.html.twig',
                 )
             );
         parent::configureListFields($mapper);
@@ -281,19 +281,19 @@ class ArticleAdmin extends PublishableAdmin
         $mapper
             ->with('article.group.general', array('class' => 'col-md-6'))
                 ->add('title', null, array(
-                        'label' => 'article.field.title'
+                        'label' => 'article.field.title',
                     )
                 )
                 ->add('summary', 'redactor', array(
                         'label' => 'article.field.summary',
                         'help' => 'article.help.summary',
-                        'minHeight' => 100
+                        'minHeight' => 100,
                     )
                 )
                 ->add('tags', 'list', array(
                         'label'    => 'article.field.tags',
                         'required' => false,
-                        'help' => 'article.help.tags'
+                        'help' => 'article.help.tags',
                     )
                 )
             ;
@@ -303,8 +303,8 @@ class ArticleAdmin extends PublishableAdmin
                     'required' => false,
                     'help' => 'article.help.customUrl',
                     'attr' => array(
-                        'placeholder' => $this->getSubject()->getRoutePattern()
-                    )
+                        'placeholder' => $this->getSubject()->getRoutePattern(),
+                    ),
                 )
             );
         }
@@ -319,17 +319,17 @@ class ArticleAdmin extends PublishableAdmin
                         'query_builder' => function (EntityRepository $repository) {
                             return $repository->createQueryBuilder('template')
                                 ->orderBy('template.title', 'ASC');
-                        }
+                        },
                     )
                 )
                 ->add('contents', 'template', array(
-                        'label' => false
+                        'label' => false,
                     )
                 )
             ->end()
             ->with('article.group.metas', array('class' => 'col-md-12'))
                 ->add('metas', 'metagroup', array(
-                        'label' => false
+                        'label' => false,
                     )
                 )
             ->end()

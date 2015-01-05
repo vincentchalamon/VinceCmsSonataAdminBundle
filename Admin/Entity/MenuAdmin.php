@@ -24,7 +24,6 @@ use Vince\Bundle\CmsBundle\Entity\Repository\MenuRepository;
  */
 class MenuAdmin extends PublishableAdmin
 {
-
     /**
      * {@inheritdoc}
      */
@@ -146,15 +145,15 @@ class MenuAdmin extends PublishableAdmin
     {
         $mapper
             ->add('up', 'field_tree_up', array(
-                    'label'=> 'menu.field.up'
+                    'label' => 'menu.field.up',
                 )
             )
             ->add('down', 'field_tree_down', array(
-                    'label'=> 'menu.field.down'
+                    'label' => 'menu.field.down',
                 )
             )
             ->addIdentifier('adminListTitle', 'html', array(
-                    'label' => 'menu.field.title'
+                    'label' => 'menu.field.title',
                 )
             )
         ;
@@ -188,23 +187,23 @@ class MenuAdmin extends PublishableAdmin
                             }
 
                             return $builder;
-                        }
+                        },
                     )
                 );
         }
         $mapper->add('title', null, array(
-                        'label' => 'menu.field.title'
+                        'label' => 'menu.field.title',
                     )
                 )
                 ->add('image', null, array(
                         'label' => 'menu.field.image',
-                        'required' => false
+                        'required' => false,
                     )
                 )
                 ->add('file', 'file', array(
                         'label' => 'menu.field.path',
                         'required' => false,
-                        'filename' => $this->getSubject()->getPath()
+                        'filename' => $this->getSubject()->getPath(),
                     )
                 )
             ->end();
@@ -214,7 +213,7 @@ class MenuAdmin extends PublishableAdmin
                 ->with('menu.group.url', array('class' => 'col-md-6'))
                     ->add('url', null, array(
                             'label' => 'menu.field.url',
-                            'required' => false
+                            'required' => false,
                         )
                     )
                     ->add('article', null, array(
@@ -226,7 +225,7 @@ class MenuAdmin extends PublishableAdmin
                                                         ->andWhere('SUBSTRING(a.slug, 1, 5) != :error')
                                                         ->setParameter('error', 'error')
                                                         ->orderBy('a.title', 'ASC');
-                            }
+                            },
                         )
                     )
                     ->add('target', 'choice', array(
@@ -234,8 +233,8 @@ class MenuAdmin extends PublishableAdmin
                             'required' => false,
                             'choices' => array(
                                 '_blank' => $this->trans('menu.help.target.blank', array(), 'SonataAdminBundle'),
-                                '_self'  => $this->trans('menu.help.target.self', array(), 'SonataAdminBundle')
-                            )
+                                '_self'  => $this->trans('menu.help.target.self', array(), 'SonataAdminBundle'),
+                            ),
                         )
                     )
                 ->end();

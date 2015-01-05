@@ -22,7 +22,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class FilenameTypeExtension extends AbstractTypeExtension
 {
-
     /**
      * {@inheritdoc}
      */

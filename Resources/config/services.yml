@@ -25,7 +25,7 @@ services:
         calls:
             - [ setMetaRepository, [ @vince_cms.repository.meta ] ]
             - [ setUser, [ @security.context ] ]
-            - [ setObjectManager, [ @doctrine.orm.default_entity_manager ] ]
+            - [ setDoctrine, [ @doctrine ] ]
             - [ setCacheDir, [ %kernel.cache_dir% ] ]
             - [ setArticleMetaClass, [ %vince_cms.class.articlemeta% ] ]
 

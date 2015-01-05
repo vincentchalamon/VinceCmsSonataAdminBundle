@@ -23,7 +23,6 @@ use Vince\Bundle\CmsSonataAdminBundle\Form\Transformer\MetaTransformer;
  */
 class MetaGroupType extends AbstractType
 {
-
     /**
      * Meta repository
      *
@@ -88,7 +87,7 @@ class MetaGroupType extends AbstractType
         foreach ($groups as $name => $metas) {
             $builder->add($name ?: 'general', 'meta', array(
                     'label' => $name,
-                    'metas' => $metas
+                    'metas' => $metas,
                 )
             );
         }

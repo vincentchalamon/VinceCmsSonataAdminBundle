@@ -22,7 +22,6 @@ use Vince\Bundle\CmsBundle\Entity\Area;
  */
 class AreaType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,7 @@ class AreaType extends AbstractType
             /** @var Area $area */
             $fieldOptions = array_merge(array(
                 'label' => $area->getTitle(),
-                'required' => $area->isRequired()
+                'required' => $area->isRequired(),
             ), $area->getOptions());
             if ($area->getType() == 'document') {
                 $fieldOptions['string'] = true;

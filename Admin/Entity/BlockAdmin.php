@@ -21,7 +21,6 @@ use Sonata\AdminBundle\Route\RouteCollection;
  */
 class BlockAdmin extends PublishableAdmin
 {
-
     /**
      * {@inheritdoc}
      */
@@ -33,7 +32,7 @@ class BlockAdmin extends PublishableAdmin
     protected $datagridValues = array(
         '_page'       => 1,
         '_sort_order' => 'ASC',
-        '_sort_by'    => 'title'
+        '_sort_by'    => 'title',
     );
 
     /**
@@ -55,7 +54,7 @@ class BlockAdmin extends PublishableAdmin
     protected function configureListFields(ListMapper $mapper)
     {
         $mapper->addIdentifier('title', null, array(
-                'label' => 'block.field.title'
+                'label' => 'block.field.title',
             )
         );
         parent::configureListFields($mapper);
@@ -69,11 +68,11 @@ class BlockAdmin extends PublishableAdmin
         $mapper
             ->with('block.field.contents', array('class' => 'col-md-6'))
                 ->add('title', null, array(
-                        'label' => 'block.field.title'
+                        'label' => 'block.field.title',
                     )
                 )
                 ->add('contents', 'redactor', array(
-                        'label' => 'block.field.contents'
+                        'label' => 'block.field.contents',
                     )
                 )
             ->end();

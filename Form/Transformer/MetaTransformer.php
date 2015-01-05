@@ -23,7 +23,6 @@ use Vince\Bundle\CmsBundle\Entity\Meta;
  */
 class MetaTransformer implements DataTransformerInterface
 {
-
     /**
      * ArticleMeta class name
      *
@@ -62,7 +61,7 @@ class MetaTransformer implements DataTransformerInterface
     {
         // Fix for Symfony 2.4
         if (null === $value) {
-            return null;
+            return;
         }
 
         /** @var \Traversable $values */

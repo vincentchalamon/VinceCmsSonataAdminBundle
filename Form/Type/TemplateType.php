@@ -23,7 +23,6 @@ use Vince\Bundle\CmsSonataAdminBundle\Form\Transformer\ContentsTransformer;
  */
 class TemplateType extends AbstractType
 {
-
     /**
      * Template repository
      *
@@ -84,7 +83,7 @@ class TemplateType extends AbstractType
             $builder->add($template->getSlug(), 'area', array(
                     'label' => false,
                     'areas' => $template->getAreas(),
-                    'attr'  => array('template_id' => $template->getId())
+                    'attr'  => array('template_id' => $template->getId()),
                 )
             );
         }

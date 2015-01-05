@@ -17,14 +17,13 @@ namespace Vince\Bundle\CmsSonataAdminBundle\Twig\Extension;
  */
 class CmsSonataAdminExtension extends \Twig_Extension
 {
-
     /**
      * {@inheritdoc}
      */
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('md5', 'md5')
+            new \Twig_SimpleFilter('md5', 'md5'),
         );
     }
 

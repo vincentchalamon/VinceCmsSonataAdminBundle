@@ -22,7 +22,6 @@ use Vince\Bundle\CmsBundle\Entity\Meta;
  */
 class MetaType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,7 @@ class MetaType extends AbstractType
             /** @var Meta $meta */
             $builder->add($meta->getName(), $meta->getType(), array(
                     'label'    => $meta->getTitle(),
-                    'required' => false
+                    'required' => false,
                 )
             );
         }

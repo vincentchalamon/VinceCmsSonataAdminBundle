@@ -22,7 +22,6 @@ use Vince\Bundle\CmsBundle\Entity\Article;
  */
 class PublishableController extends CRUDController
 {
-
     /**
      * {@inheritdoc}
      */
@@ -38,7 +37,7 @@ class PublishableController extends CRUDController
                 return $this->renderJson(array('result' => 'error'));
             }
             $this->addFlash('sonata_flash_error', $this->admin->trans('flash.error.locked', array(
-                        '%name%' => $this->admin->toString($object)
+                        '%name%' => $this->admin->toString($object),
                     ), 'SonataAdminBundle'
                 )
             );
@@ -59,7 +58,7 @@ class PublishableController extends CRUDController
         try {
             $objects = $query->select('DISTINCT '.$query->getRootAlias())->getQuery()->iterate();
             $i       = 0;
-            $em      = $this->get('doctrine.orm.default_entity_manager');
+            $em      = $this->get('doctrine')->getManager();
             foreach ($objects as $object) {
                 $object[0]->publish();
                 $em->persist($object[0]);
@@ -90,7 +89,7 @@ class PublishableController extends CRUDController
         try {
             $objects = $query->select('DISTINCT '.$query->getRootAlias())->getQuery()->iterate();
             $i       = 0;
-            $em      = $this->get('doctrine.orm.default_entity_manager');
+            $em      = $this->get('doctrine')->getManager();
             foreach ($objects as $object) {
                 if (!$object[0] instanceof Article || $object[0]->getSlug() != 'homepage') {
                     $object[0]->unpublish();

@@ -22,7 +22,6 @@ use Sonata\AdminBundle\Admin\Admin;
  */
 abstract class PublishableAdmin extends Admin
 {
-
     /**
      * {@inheritdoc}
      */
@@ -31,12 +30,12 @@ abstract class PublishableAdmin extends Admin
         return array_merge(parent::getBatchActions(), array(
                 'publish' => array(
                     'label' => $this->trans('action.publish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
+                    'ask_confirmation' => true,
                 ),
                 'unpublish' => array(
                     'label' => $this->trans('action.unpublish', array(), 'SonataAdminBundle'),
-                    'ask_confirmation' => true
-                )
+                    'ask_confirmation' => true,
+                ),
             )
         );
     }
@@ -48,15 +47,15 @@ abstract class PublishableAdmin extends Admin
     {
         $mapper->add('publication', 'trans', array(
                 'label' => 'field.publication',
-                'catalogue' => 'VinceCms'
+                'catalogue' => 'VinceCms',
             )
         );
         parent::configureListFields($mapper);
         $mapper->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
-                    'delete' => array('template' => 'VinceCmsSonataAdminBundle:CRUD:list__action_delete.html.twig')
-                )
+                    'delete' => array('template' => 'VinceCmsSonataAdminBundle:CRUD:list__action_delete.html.twig'),
+                ),
             )
         );
     }
@@ -117,15 +116,15 @@ abstract class PublishableAdmin extends Admin
                             ))->setParameter('now', new \DateTime());
                             break;
                     }
-                }
+                },
             ), 'choice', array(
                 'choices' => array(
                     'Never published' => $this->trans('Never published', array(), 'VinceCms'),
                     'Published' => $this->trans('Published', array(), 'VinceCms'),
                     'Pre-published' => $this->trans('Pre-published', array(), 'VinceCms'),
                     'Post-published' => $this->trans('Post-published', array(), 'VinceCms'),
-                    'Published temp' => $this->trans('Published temp', array(), 'VinceCms')
-                )
+                    'Published temp' => $this->trans('Published temp', array(), 'VinceCms'),
+                ),
             )
         );
     }
@@ -139,12 +138,12 @@ abstract class PublishableAdmin extends Admin
             ->with('field.publication', array('class' => 'col-md-6'))
                 ->add('startedAt', 'datepicker', array(
                         'label' => 'field.startedAt',
-                        'required' => false
+                        'required' => false,
                     )
                 )
                 ->add('endedAt', 'datepicker', array(
                         'label' => 'field.endedAt',
-                        'required' => false
+                        'required' => false,
                     )
                 )
             ->end();

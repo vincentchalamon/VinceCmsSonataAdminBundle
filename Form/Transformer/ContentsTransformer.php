@@ -22,7 +22,6 @@ use Vince\Bundle\CmsBundle\Entity\Template;
  */
 class ContentsTransformer implements DataTransformerInterface
 {
-
     /**
      * Contents class name
      *
@@ -61,7 +60,7 @@ class ContentsTransformer implements DataTransformerInterface
     {
         // Fix for Symfony 2.4
         if (null === $value) {
-            return null;
+            return;
         }
 
         /** @var \Traversable $values */
