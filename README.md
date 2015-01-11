@@ -8,3 +8,20 @@ VinceCmsSonataAdminBundle
 [![Coverage Status](https://coveralls.io/repos/vincentchalamon/VinceCmsSonataAdminBundle/badge.png)](https://coveralls.io/r/vincentchalamon/VinceCmsSonataAdminBundle)
 
 Manage VinceCmsBundle with Sonata Admin
+
+## TODO
+
+- [ ] Documentation
+- [ ] Languages on article list
+
+Documentation
+=============
+
+### Installation
+
+- [ ] Install bundle with composer
+- [ ] Update AppKernel
+
+### Configuration
+
+- [ ] Override admin
